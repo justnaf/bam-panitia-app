@@ -11,7 +11,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     @hasrole(['Admin', 'SuperAdmin', 'Instruktur'])
-                    Hallo Selamat Datan
+                    Hallo Selamat Datang
                     @else
                     <div class="text-center">
                         <h1 class="font-extrabold text-2xl">
