@@ -14,7 +14,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::where('user_id', Auth::id())->get();
+        if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
+            $events = Event::all();
+        } else {
+            $events = Event::where('user_id', Auth::id())->get();
+        }
         return view('events.index', compact('events'));
     }
 
@@ -56,6 +60,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $event->load('sesi');
         return view('events.show', compact('event'));
     }
 

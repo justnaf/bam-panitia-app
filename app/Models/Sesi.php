@@ -11,10 +11,16 @@ class Sesi extends Model
         'name',
         'speaker',
         'room',
+        'time',
         'type',
         'grade',
         'cv_path',
         'materi_path',
         'status',
     ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }

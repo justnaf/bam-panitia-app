@@ -29,4 +29,9 @@ class Event extends Model
     {
         return $this->hasOne(ModelRequestEvent::class);
     }
+
+    public function sesi()
+    {
+        return $this->hasMany(Sesi::class);
+    }
 }

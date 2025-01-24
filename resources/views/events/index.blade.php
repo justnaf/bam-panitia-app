@@ -79,19 +79,21 @@
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
                                             <template x-if="event.status == 'draft'">
-                                                <form method="POST" :action="'/events/' + event.id" x-data="deleteForm" x-ref="form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="hover:text-red-500" @click="confirmDelete">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                                <form method="POST" :action="'/submission-event/' + event.id">
-                                                    @csrf
-                                                    <button type="submit" class="text-purple-500">
-                                                        <i class="fas fa-file-upload"></i>
-                                                    </button>
-                                                </form>
+                                                <div class="flex space-x-2">
+                                                    <form method="POST" :action="'/events/' + event.id" x-data="deleteForm" x-ref="form">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="hover:text-red-500" @click="confirmDelete">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form method="POST" :action="'/submission-event/' + event.id">
+                                                        @csrf
+                                                        <button type="submit" class="text-purple-500">
+                                                            <i class="fas fa-file-upload"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </template>
                                         </td>
                                     </tr>

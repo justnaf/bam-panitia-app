@@ -1,84 +1,37 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{route('events.index')}}">Events Management</a> > <span>Show</span>
+            {{ __('Sesi Management') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @include('includes.taost')
-            <a href="{{route('events.index')}}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Kembali</a>
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
-                <div class="p-6 text-gray-900">
-                    <h1 class="text-center font-bold text-2xl mb-3">Data Kegiatan</h1>
-                    <div class="max-w-lg mx-auto">
-                        <div class="grid grid-cols-2 gap-4 mb-3">
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                    Nama Kegiatan
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->name}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="institution">
-                                    Penyelenggara
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->institution}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location">
-                                    Lokasi
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->location}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location_url">
-                                    Link Gmaps Lokasi
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->location_url}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location_url">
-                                    Tanggal Mulai
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->start_date}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location_url">
-                                    Tanggal Selesai
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->end_date}}" disabled />
-                            </div>
-                            <div class="w-full px-1  col-span-2">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location_url">
-                                    Maksimum Peserta
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->max_person}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location_url">
-                                    Penanggung Jawab
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->pic}}" disabled />
-                            </div>
-                            <div class="w-full px-1">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="location_url">
-                                    Email Penanggung Jawab
-                                </label>
-                                <input class="block w-full border border-slate-300 rounded-md p-2 shadow-sm bg-slate-200 text-gray-500 focus:ring-0 focus:ring-gray-300 focus:border-gray-300 sm:text-sm" value="{{$event->email}}" disabled />
-                            </div>
-                        </div>
-                    </div>
-                    @if($event->status == 'draft'||$event->status == 'submission')
 
-                    @else
-                    <hr class="border-b-1 border-gray-400 my-4 mx-auto max-w-lg mt-5">
-                    <h1 class="text-center font-bold text-2xl mb-3">Sesi Kegiatan</h1>
-                    <div class="max-w-2xl mx-auto" x-data="eventHandler({{ $event->first()->id ?? 'null' }})" x-init="init()">
+            <div class="mx-auto" x-data="eventHandler({{ $events->first()->id ?? 'null' }})" x-init="init()">
+                <div class="mb-5">
+                    <label for="eventSelect" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Kegiatan</label>
+                    <select id="eventSelect" @change="fetchSessions()" x-model="selectedEvent" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <option value="" selected>Choose an Event</option>
+                        @foreach($events as $event)
+                        <option value="{{ $event->id }}">{{ $event->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('event_id')" class="mt-2" />
+                </div>
+
+                <a :href="'{{ route('sesi.create') }}?event_id=' + selectedEvent" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                    <input type="text" name="event_id" hidden x-model="selectedEvent">
+                    Tambah Sesi
+                </a>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
+                    <div class="p-6 text-gray-900">
                         <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
+                                    <th class="px-2 py-3">#</th>
                                     <th class="px-2 py-3">Nama</th>
                                     <th class="px-2 py-3">CV</th>
                                     <th class="px-2 py-3">Materi</th>
@@ -86,6 +39,7 @@
                                     <th class="px-2 py-3">Ruangan</th>
                                     <th class="px-2 py-3">Waktu</th>
                                     <th class="px-2 py-3">Status</th>
+                                    <th class="px-2 py-3">Aksi</th>
                                 </tr>
                             </thead>
                             <!-- Grouped sessions -->
@@ -94,12 +48,13 @@
                                     <tbody>
                                         <!-- Day Header -->
                                         <tr class="bg-gray-400 text-lg text-slate-50 font-bold">
-                                            <td colspan="8" class="px-3" x-text="day"></td>
+                                            <td colspan="9" class="px-3" x-text="day"></td>
                                         </tr>
 
                                         <!-- Sessions for the day -->
                                         <template x-for="(session, index) in group" :key="session.id">
                                             <tr class="border-b">
+                                                <td class="px-2 py-3" x-text="index + 1"></td>
                                                 <td class="px-2 py-3" x-text="session.name"></td>
                                                 <td class="px-2 py-3">
                                                     <template x-if="session.cv_path">
@@ -129,6 +84,15 @@
                                                 <td class="px-2 py-3" x-text="session.room"></td>
                                                 <td class="px-2 py-3" x-text="session.time.split(',')[1].trim()"></td>
                                                 <td class="px-2 py-3" x-text="session.status"></td>
+                                                <td class="px-2 py-3">
+                                                    <form method="POST" :action="'/sesi/' + session.id" x-data="deleteForm" x-ref="form">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="hover:text-red-500" @click="confirmDelete">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </template>
                                     </tbody>
@@ -137,14 +101,11 @@
                             <!-- No sessions available -->
                             <template x-if="Object.keys(groupedSessions).length === 0">
                                 <tbody>
-                                    <tr>
-                                        <td colspan="8" class="text-center p-3">No Sesi Display</td>
-                                    </tr>
+                                    <td colspan="9" class="text-center p-3">No Sesi Display</td>
                                 </tbody>
                             </template>
                         </table>
                     </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -218,8 +179,26 @@
             }
         }
 
-    </script>
-
+        function deleteForm() {
+            return {
+                confirmDelete() {
+                    Swal.fire({
+                        title: 'Are you sure?'
+                        , text: "Yakin Ingin Menghapus Data Ini!"
+                        , icon: 'warning'
+                        , showCancelButton: true
+                        , confirmButtonColor: '#d33'
+                        , cancelButtonColor: '#3085d6'
+                        , confirmButtonText: 'Yes, delete it!'
+                        , cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.$refs.form.submit();
+                        }
+                    });
+                }
+            };
+        }
 
     </script>
     @endpush
