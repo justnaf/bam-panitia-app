@@ -1,13 +1,29 @@
 {
+  "node_modules/chart.js/dist/chart.js": {
+    "file": "assets/chart-gdgLtKGY.js",
+    "name": "chart",
+    "src": "node_modules/chart.js/dist/chart.js",
+    "isDynamicEntry": true
+  },
+  "node_modules/sweetalert2/dist/sweetalert2.esm.all.js": {
+    "file": "assets/sweetalert2.esm.all-B-GInhsS.js",
+    "name": "sweetalert2.esm.all",
+    "src": "node_modules/sweetalert2/dist/sweetalert2.esm.all.js",
+    "isDynamicEntry": true
+  },
   "resources/css/app.css": {
-    "file": "assets/app-rEHPfv_q.css",
+    "file": "assets/app-B68X676H.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BBowXbCW.js",
+    "file": "assets/app-B_yVMkOt.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/sweetalert2/dist/sweetalert2.esm.all.js",
+      "node_modules/chart.js/dist/chart.js"
+    ]
   }
 }

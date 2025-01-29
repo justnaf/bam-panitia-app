@@ -18,7 +18,8 @@
 </head>
 <body class="flex flex-col items-center min-h-screen justify-center space-y-2">
     <div>
-        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+        <x-application-logo class=" fill-current text-gray-500" />
+        <h1 class="text-center mb-2 font-extrabold text-xl">Panitia Site</h1>
     </div>
     @if (Route::has('login'))
     <nav class="mb-8">

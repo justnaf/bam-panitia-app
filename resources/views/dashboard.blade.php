@@ -11,13 +11,21 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     @hasrole(['Admin', 'SuperAdmin', 'Instruktur'])
-                    Hallo Selamat Datang
+                    <div class="flex flex-col max-w-sm mx-auto items-center">
+                        <p>
+                            Hallo Selamat Datang
+                        </p>
+                        <div class="mt-2">
+                            <a href="{{route('presences.index')}}" class="bg-orange-500 px-3 py-2 text-white rounded-md hover:bg-emerald-500">Buka Untuk Presensi</a>
+                        </div>
+                    </div>
                     @else
                     <div class="text-center">
                         <h1 class="font-extrabold text-2xl">
                             Kamu Bukan Panitia
                         </h1>
-                        @if($submission->status == 'pending')
+                        @if(!$submission || ($submission->status && $submission->status == 'pending'))
+                        @if($submission && $submission->status == 'pending')
                         <p class="text-orange-500">Tunggu Proses Approval Pengajuan Aksesmu</p>
                         @else
                         <p>
@@ -33,6 +41,7 @@
                             <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="reason" id="reason" type="text"></textarea>
                             <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="confirmSubmission"><span class="font-extrabold">Ajukan</span></button>
                         </form>
+                        @endif
                         @endif
                     </div>
                     @endhasrole

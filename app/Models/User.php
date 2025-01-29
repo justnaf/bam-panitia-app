@@ -48,11 +48,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function dataDiri()
-    {
-        return $this->hasOne(DataDiri::class);
-    }
-
     public function modelRequestRole()
     {
         return $this->hasMany(ModelRequestRole::class);
@@ -61,4 +56,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+    public function modelActiveEvent()
+    {
+        return $this->hasMany(ModelActiveEvent::class);
+    }
+
+    public function modelHistoryEvent()
+    {
+        return $this->hasMany(ModelHistoryEvent::class);
+    }
+
+    public function presenceHistory()
+    {
+        return $this->hasMany(PresenceHistory::class);
+    }
+
+    // Detail Of User
+    public function dataDiri()
+    {
+        return $this->hasOne(DataDiri::class);
+    }
+    // end Detail Of User
 }

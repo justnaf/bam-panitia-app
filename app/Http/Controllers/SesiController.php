@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Sesi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SesiController extends Controller
 {
@@ -136,10 +137,25 @@ class SesiController extends Controller
      */
     public function destroy(Sesi $sesi)
     {
-        if ($sesi->delete()) {
-            return redirect()->route('sesi.index')->with('success', 'Sesi Deleted successfully.');
+        if ($sesi) {
+            // Hapus file cv_path jika ada
+            if ($sesi->cv_path) {
+                Storage::disk('public')->delete($sesi->cv_path);
+            }
+
+            // Hapus file materi_path jika ada
+            if ($sesi->materi_path) {
+                Storage::disk('public')->delete($sesi->materi_path);
+            }
+
+            // Hapus data sesi setelah file berhasil dihapus
+            if ($sesi->delete()) {
+                return redirect()->route('sesi.index')->with('success', 'Sesi Berhasil Dihapus');
+            } else {
+                return redirect()->route('sesi.index')->with('error', 'Sesi Gagal Dihapus.');
+            }
         } else {
-            return redirect()->route('sesi.index')->with('error', 'Failed Delete Sesi .');
+            return redirect()->route('sesi.index')->with('error', 'Sesi Tidak Ditemukan');
         }
     }
 
@@ -154,5 +170,33 @@ class SesiController extends Controller
         $sessions = Sesi::where('event_id', $eventId)->get();
 
         return response()->json($sessions);
+    }
+
+    public function changeSessionStatus(Sesi $sesi)
+    {
+        if ($sesi) {
+            if ($sesi->status == 'inactive') {
+                $sesi->status = 'active';
+                $sesi->save();
+                return redirect()->route('sesi.index')->with('success', 'Status Berhasil Diubah');
+            }
+            if ($sesi->status == 'active') {
+                $sesi->status = 'gradding';
+                $sesi->save();
+                return redirect()->route('sesi.index')->with('success', 'Status Berhasil Diubah');
+            }
+            if ($sesi->status == 'gradding') {
+                $sesi->status = 'done';
+                $sesi->save();
+                return redirect()->route('sesi.index')->with('success', 'Status Berhasil Diubah');
+            }
+            if ($sesi->status == 'done') {
+                $sesi->status = 'inactive';
+                $sesi->save();
+                return redirect()->route('sesi.index')->with('success', 'Status Berhasil Diubah');
+            }
+            return redirect()->route('sesi.index')->with('error', 'Status Sesi Gagal Diubah');
+        }
+        return redirect()->route('sesi.index')->with('error', 'Sesi Tidak Ditemukan');
     }
 }

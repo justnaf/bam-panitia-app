@@ -13,7 +13,7 @@
             </a>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                 <div class="p-6 text-gray-900">
-                    <div x-data="tableComponent()">
+                    <div x-data="tableComponent()" class=" overflow-x-auto">
                         <div class="flex justify-between mx-auto">
                             <div class="mb-4">
                                 <select id="entriesPerPage" x-model="perPage" class="border rounded py-2 px-6">

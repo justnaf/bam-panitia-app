@@ -16,19 +16,26 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
                         {{ __('Event Management') }}
                     </x-nav-link>
-
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('sesi.index')" :active="request()->routeIs('sesi.*')">
                         {{ __('Sesi Management') }}
                     </x-nav-link>
-
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('modelActiveEvents.index')" :active="request()->routeIs('modelActiveEvents.*')">
+                        {{ __('Joined Management') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('esummary.index')" :active="request()->routeIs('esummary.*')">
+                        {{ __('Event Summary') }}
+                    </x-nav-link>
                 </div>
                 @else
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -102,6 +109,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('sesi.index')" :active="request()->routeIs('sesi.*')">
                 {{ __('Sesi Management') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('modelActiveEvents.index')" :active="request()->routeIs('modelActiveEvents.*')">
+                {{ __('Joined Management') }}
             </x-responsive-nav-link>
         </div>
         @else

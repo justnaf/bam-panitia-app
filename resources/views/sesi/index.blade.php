@@ -27,8 +27,8 @@
                 </a>
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
-                    <div class="p-6 text-gray-900">
-                        <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
+                    <div class="p-6 text-gray-900 overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500 border border-gray-200 ">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
                                     <th class="px-2 py-3">#</th>
@@ -83,7 +83,9 @@
                                                 <td class="px-2 py-3" x-text="session.speaker"></td>
                                                 <td class="px-2 py-3" x-text="session.room"></td>
                                                 <td class="px-2 py-3" x-text="session.time.split(',')[1].trim()"></td>
-                                                <td class="px-2 py-3" x-text="session.status"></td>
+                                                <td class="px-2 py-3">
+                                                    <a :href="'cnsession-status/'+session.id" x-text="session.status.charAt(0).toUpperCase() + session.status.slice(1)" class="border-2 rounded-md text-center hover:bg-slate-200 border-gray-200 py-2 px-4"></a>
+                                                </td>
                                                 <td class="px-2 py-3">
                                                     <form method="POST" :action="'/sesi/' + session.id" x-data="deleteForm" x-ref="form">
                                                         @csrf

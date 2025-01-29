@@ -34,4 +34,9 @@ class Event extends Model
     {
         return $this->hasMany(Sesi::class);
     }
+
+    public function modelActiveEvent()
+    {
+        return $this->hasMany(ModelActiveEvent::class);
+    }
 }
