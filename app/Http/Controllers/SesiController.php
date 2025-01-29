@@ -121,7 +121,7 @@ class SesiController extends Controller
      */
     public function edit(Sesi $sesi)
     {
-        //
+        return view('sesi.edit', compact('sesi'));
     }
 
     /**
@@ -129,7 +129,27 @@ class SesiController extends Controller
      */
     public function update(Request $request, Sesi $sesi)
     {
-        //
+        $event = Event::find($sesi->event_id);
+        $sesi->name = $request->name;
+        $sesi->speaker = $request->speaker;
+        $sesi->room = $request->room;
+        $sesi->time = $request->time;
+        $sesi->type = $request->type;
+        $sesi->grade = $request->grade;
+        if ($request->cv_path) {
+            Storage::disk('public')->delete($sesi->cv_path);
+            $sesi->cv_path = $request->cv_path;
+        }
+        if ($request->materi_path) {
+            Storage::disk('public')->delete($sesi->materi_path);
+            $sesi->materi_path = $request->materi_path;
+        }
+
+        if ($sesi->save()) {
+            return redirect()->route('sesi.index')->with('success', 'Data Sesi ' . $event->name . ' Update Successfully.');
+        } else {
+            return redirect()->route('sesi.index')->with('error', 'Data Sesi ' . $event->name . ' Update Create.');
+        }
     }
 
     /**

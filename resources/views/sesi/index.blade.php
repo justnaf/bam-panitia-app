@@ -87,13 +87,16 @@
                                                     <a :href="'cnsession-status/'+session.id" x-text="session.status.charAt(0).toUpperCase() + session.status.slice(1)" class="border-2 rounded-md text-center hover:bg-slate-200 border-gray-200 py-2 px-4"></a>
                                                 </td>
                                                 <td class="px-2 py-3">
-                                                    <form method="POST" :action="'/sesi/' + session.id" x-data="deleteForm" x-ref="form">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="hover:text-red-500" @click="confirmDelete">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                    <div class="flex space-x-2">
+                                                        <a :href="'sesi/'+session.id+'/edit'" class="hover:text-emerald-500" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                                        <form method="POST" :action="'/sesi/' + session.id" x-data="deleteForm" x-ref="form">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="hover:text-red-500" @click="confirmDelete" title="Delete">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </template>
