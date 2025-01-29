@@ -15,7 +15,7 @@
                             @csrf
                             @foreach ($user as $item)
                             <div class="bg-gray-300 shadow-lg p-4 w-64 h-80 flex items-center justify-center mb-3">
-                                <img src="{{url('http://192.168.1.8:8001/storage/'.$item->dataDiri->profile_picture)}}" alt="{{$item->dataDiri->name}}" class="h-64 object-cover">
+                                <img src="{{url('https://peserta.siaruna.com//storage/'.$item->dataDiri->profile_picture)}}" alt="{{$item->dataDiri->name}}" class="h-64 object-cover">
                             </div>
                             <h1 class="font-extrabold text-lg">{{$item->dataDiri->name}}</h1>
                             <h1 class="font-extrabold text-lg">{{$item->username}}</h1>
