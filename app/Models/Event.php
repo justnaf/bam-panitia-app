@@ -34,6 +34,10 @@ class Event extends Model
     {
         return $this->hasMany(Sesi::class);
     }
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
 
     public function modelActiveEvent()
     {

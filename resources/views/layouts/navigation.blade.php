@@ -29,7 +29,12 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('modelActiveEvents.index')" :active="request()->routeIs('modelActiveEvents.*')">
-                        {{ __('Joined Management') }}
+                        {{ __('Invite Management') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('grades.index')" :active="request()->routeIs('grades.*')">
+                        {{ __('Penilaian') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">

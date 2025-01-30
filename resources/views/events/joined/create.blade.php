@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{route('modelActiveEvents.index')}}">Joined Management</a> > <span>Buat</span>
+            <a href="{{route('modelActiveEvents.index')}}">Invite Management</a> > <span>Invite User</span>
         </h2>
     </x-slot>
 

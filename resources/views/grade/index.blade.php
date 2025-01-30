@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Invite Management') }}
+            {{ __('Grade Management') }}
         </h2>
     </x-slot>
 
@@ -21,8 +21,8 @@
                     <x-input-error :messages="$errors->get('event_id')" class="mt-2" />
                 </div>
 
-                <a href="{{ route('modelActiveEvents.create') }}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                    Undang User
+                <a :href="'{{ route('grades.generate','') }}/'+selectedEvent" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                    Generate Penilaian
                 </a>
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
@@ -33,24 +33,21 @@
                                     <th class="px-2 py-3">#</th>
                                     <th class="px-2 py-3">NPM</th>
                                     <th class="px-2 py-3">Nama</th>
-                                    <th class="px-2 py-3">Email</th>
-                                    <th class="px-2 py-3">Event</th>
                                     <th class="px-2 py-3">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody x-data="{ modelActiveEvent: [] }" x-init="fetchSessions()">
-                                <template x-for="(session, index) in sessions" :key="session.id">
+                            <tbody x-data="{ modelHasGrade: [] }" x-init="fetchSessions()">
+                                <template x-for="(grade, index) in grades" :key="grade.id">
                                     <tr class="border-b">
                                         <td class="px-2 py-3" x-text="index + 1"></td>
-                                        <td class="px-2 py-3" x-text="session.user.username"></td>
-                                        <td class="px-2 py-3" x-text="session.user.data_diri.name"></td>
-                                        <td class="px-2 py-3" x-text="session.user.email"></td>
-                                        <td class="px-2 py-3" x-text="session.event.name"></td>
+                                        <td class="px-2 py-3" x-text="grade.user.username"></td>
+                                        <td class="px-2 py-3" x-text="grade.user.data_diri.name"></td>
                                         <td>
-                                            <form method="POST" :action="'{{ route('modelActiveEvents.destroy', '') }}/' + session.id" x-data="deleteForm" x-ref="form">
+                                            <a :href="'grades/'+grade.user.code+'/'+grade.event_id+'/edit'" class="hover:text-emerald-500" title="Edit Penilaian"><i class="fas fa-pencil-alt"></i></a>
+                                            <form method="POST" :action="'{{ route('grades.delete', '') }}/' + grade.user_id" x-data="deleteForm" x-ref="form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="hover:text-red-500" @click="confirmDelete">
+                                                <button type="button" class="hover:text-red-500" @click="confirmDelete" title="Hapus Semua Nilai User">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -58,9 +55,9 @@
                                         </td>
                                     </tr>
                                 </template>
-                                <template x-if="sessions.length === 0">
+                                <template x-if="grades.length === 0">
                                     <tr>
-                                        <td colspan="5" class="text-center py-3">Tidak ada data pengguna yang bergabung</td>
+                                        <td colspan="5" class="text-center py-3">Tidak ada data penilaian</td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -75,7 +72,7 @@
         function eventHandler(initialEventId) {
             return {
                 selectedEvent: initialEventId
-                , sessions: [],
+                , grades: [],
 
                 init() {
                     if (this.selectedEvent) {
@@ -85,7 +82,7 @@
 
                 fetchSessions() {
                     if (this.selectedEvent) {
-                        fetch('/getuser-joined', {
+                        fetch('/grades/getpeserta', {
                                 method: 'POST'
                                 , headers: {
                                     'Content-Type': 'application/json'
@@ -97,11 +94,12 @@
                             })
                             .then(response => response.json())
                             .then(data => {
-                                this.sessions = data; // Simpan data langsung ke sessions
+                                this.grades = data; // Simpan data langsung ke sessions
+                                console.log(this.grades);
                             })
-                            .catch(error => console.error('Error fetching sessions:', error));
+                            .catch(error => console.error('Error fetching grades:', error));
                     } else {
-                        this.sessions = []; // Reset data jika tidak ada event yang dipilih
+                        this.grades = []; // Reset data jika tidak ada event yang dipilih
                     }
                 }
             , };

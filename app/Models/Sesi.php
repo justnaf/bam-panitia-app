@@ -23,4 +23,8 @@ class Sesi extends Model
     {
         return $this->belongsTo(Event::class);
     }
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
 }
