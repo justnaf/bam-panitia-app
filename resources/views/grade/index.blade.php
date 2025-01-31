@@ -31,6 +31,7 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
                                     <th class="px-2 py-3">#</th>
+                                    <th class="px-2 py-3">Nomor Dada</th>
                                     <th class="px-2 py-3">NPM</th>
                                     <th class="px-2 py-3">Nama</th>
                                     <th class="px-2 py-3">Aksi</th>
@@ -40,6 +41,7 @@
                                 <template x-for="(grade, index) in grades" :key="grade.id">
                                     <tr class="border-b">
                                         <td class="px-2 py-3" x-text="index + 1"></td>
+                                        <td class="px-2 py-3" x-text="grade.number"></td>
                                         <td class="px-2 py-3" x-text="grade.user.username"></td>
                                         <td class="px-2 py-3" x-text="grade.user.data_diri.name"></td>
                                         <td>

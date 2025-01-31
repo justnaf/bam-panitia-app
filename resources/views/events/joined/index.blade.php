@@ -31,10 +31,11 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
                                     <th class="px-2 py-3">#</th>
+                                    <th class="px-2 py-3">Nomor Dada</th>
                                     <th class="px-2 py-3">NPM</th>
                                     <th class="px-2 py-3">Nama</th>
                                     <th class="px-2 py-3">Email</th>
-                                    <th class="px-2 py-3">Event</th>
+                                    <th class="px-2 py-3">Role</th>
                                     <th class="px-2 py-3">Aksi</th>
                                 </tr>
                             </thead>
@@ -42,10 +43,11 @@
                                 <template x-for="(session, index) in sessions" :key="session.id">
                                     <tr class="border-b">
                                         <td class="px-2 py-3" x-text="index + 1"></td>
+                                        <td class="px-2 py-3" x-text="session.number"></td>
                                         <td class="px-2 py-3" x-text="session.user.username"></td>
                                         <td class="px-2 py-3" x-text="session.user.data_diri.name"></td>
                                         <td class="px-2 py-3" x-text="session.user.email"></td>
-                                        <td class="px-2 py-3" x-text="session.event.name"></td>
+                                        <td class="px-2 py-3" x-text="session.user.roles[0].name"></td>
                                         <td>
                                             <form method="POST" :action="'{{ route('modelActiveEvents.destroy', '') }}/' + session.id" x-data="deleteForm" x-ref="form">
                                                 @csrf
@@ -80,6 +82,7 @@
                 init() {
                     if (this.selectedEvent) {
                         this.fetchSessions();
+
                     }
                 },
 
@@ -98,6 +101,8 @@
                             .then(response => response.json())
                             .then(data => {
                                 this.sessions = data; // Simpan data langsung ke sessions
+                                console.log(this.sessions);
+
                             })
                             .catch(error => console.error('Error fetching sessions:', error));
                     } else {
