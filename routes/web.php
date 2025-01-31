@@ -25,6 +25,7 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     Route::resource('sesi', SesiController::class); // Sesi Management
     Route::resource('modelActiveEvents', ModelActiveEventController::class); // Model Active Event
 
+
     Route::get('/cnsession-status/{sesi}', [SesiController::class, 'changeSessionStatus'])->name('cnsession.status'); // Ganti Status Sesi
 
     /** Event Summary Route */

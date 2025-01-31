@@ -59,17 +59,13 @@ class GradeController extends Controller
     public function generateDefault($eventId)
     {
         try {
-            $modelActiveEvents = ModelActiveEvent::where('event_id', $eventId)
-                ->whereHas('user', function ($query) {
-                    $query->role('Peserta');
-                })
-                ->with('user.dataDiri')
-                ->get();
+            $modelActiveEvents = ModelActiveEvent::where('event_id', $eventId)->whereHas('user', function ($query) {
+                $query->role('Peserta');
+            })->with('user.dataDiri')->get();
 
             $sesis = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
 
             $allGradesGenerated = true;
-
 
             foreach ($modelActiveEvents as $modelActiveEvent) {
                 foreach ($sesis as $sesi) {

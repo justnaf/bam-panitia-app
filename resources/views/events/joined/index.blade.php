@@ -49,6 +49,7 @@
                                         <td class="px-2 py-3" x-text="session.user.email"></td>
                                         <td class="px-2 py-3" x-text="session.user.roles[0].name"></td>
                                         <td>
+                                            <a :href="'modelActiveEvents/'+session.id+'/edit'">Edit</a>
                                             <form method="POST" :action="'{{ route('modelActiveEvents.destroy', '') }}/' + session.id" x-data="deleteForm" x-ref="form">
                                                 @csrf
                                                 @method('DELETE')

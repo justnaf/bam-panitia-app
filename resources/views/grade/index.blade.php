@@ -21,12 +21,16 @@
                     <x-input-error :messages="$errors->get('event_id')" class="mt-2" />
                 </div>
 
+
                 <a :href="'{{ route('grades.generate','') }}/'+selectedEvent" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                     Generate Penilaian
                 </a>
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                     <div class="p-6 text-gray-900 overflow-x-auto">
+                        <div class="mb-3 max-w-md">
+                            <input type="text" x-model="search" placeholder="Cari Nomor Dada" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                        </div>
                         <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
@@ -37,11 +41,11 @@
                                     <th class="px-2 py-3">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody x-data="{ modelHasGrade: [] }" x-init="fetchSessions()">
-                                <template x-for="(grade, index) in grades" :key="grade.id">
+                            <tbody>
+                                <template x-for="(grade, index) in filteredGrades" :key="grade.id">
                                     <tr class="border-b">
                                         <td class="px-2 py-3" x-text="index + 1"></td>
-                                        <td class="px-2 py-3" x-text="grade.number"></td>
+                                        <td class="px-2 py-3" x-text="grade.number ?? '-'"></td>
                                         <td class="px-2 py-3" x-text="grade.user.username"></td>
                                         <td class="px-2 py-3" x-text="grade.user.data_diri.name"></td>
                                         <td>
@@ -53,11 +57,10 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
-
                                         </td>
                                     </tr>
                                 </template>
-                                <template x-if="grades.length === 0">
+                                <template x-if="filteredGrades.length === 0">
                                     <tr>
                                         <td colspan="5" class="text-center py-3">Tidak ada data penilaian</td>
                                     </tr>
@@ -74,7 +77,8 @@
         function eventHandler(initialEventId) {
             return {
                 selectedEvent: initialEventId
-                , grades: [],
+                , grades: []
+                , search: '',
 
                 init() {
                     if (this.selectedEvent) {
@@ -96,17 +100,19 @@
                             })
                             .then(response => response.json())
                             .then(data => {
-                                this.grades = data; // Simpan data langsung ke sessions
-                                console.log(this.grades);
+                                this.grades = data;
                             })
                             .catch(error => console.error('Error fetching grades:', error));
                     } else {
-                        this.grades = []; // Reset data jika tidak ada event yang dipilih
+                        this.grades = [];
                     }
-                }
-            , };
-        }
+                },
 
+                get filteredGrades() {
+                    return this.grades.filter(grade => !this.search || (grade.number && String(grade.number).includes(this.search)));
+                }
+            };
+        }
 
         function deleteForm() {
             return {

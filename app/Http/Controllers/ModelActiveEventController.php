@@ -66,7 +66,7 @@ class ModelActiveEventController extends Controller
      */
     public function edit(ModelActiveEvent $modelActiveEvent)
     {
-        //
+        return view('events.joined.edit', compact('modelActiveEvent'));
     }
 
     /**
@@ -74,7 +74,11 @@ class ModelActiveEventController extends Controller
      */
     public function update(Request $request, ModelActiveEvent $modelActiveEvent)
     {
-        //
+        $modelActiveEvent->number = $request->number;
+        if ($modelActiveEvent->save()) {
+            return redirect()->route('modelActiveEvents.index')->with('success', 'Berhasil Update Nomor Dada');
+        }
+        return redirect()->route('modelActiveEvents.index')->with('error', 'Gagal Update Nomor Dada');
     }
 
     /**
