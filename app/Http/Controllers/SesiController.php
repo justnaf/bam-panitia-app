@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\ModelActiveEvent;
 use App\Models\Sesi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,10 +16,11 @@ class SesiController extends Controller
      */
     public function index()
     {
+        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->first();
         if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
             $events = Event::all();
         } else {
-            $events = Event::where('user_id', Auth::id())->get();
+            $events = Event::where('user_id', $modelActiveEvent->user_id)->get();
         }
         return view('sesi.index', compact('events'));
     }
