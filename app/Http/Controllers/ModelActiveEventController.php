@@ -34,7 +34,7 @@ class ModelActiveEventController extends Controller
      */
     public function store(Request $request)
     {
-        $cek = ModelActiveEvent::where('user_id', $request->user_id)->first();
+        $cek = ModelActiveEvent::where('user_id', $request->user_id)->where('event_id', $request->event_id)->first();
         if ($cek) {
             return redirect()->route('modelActiveEvents.index')->with('error', 'Invite Gagal Dilakukan User Sudah Join.');
         }
