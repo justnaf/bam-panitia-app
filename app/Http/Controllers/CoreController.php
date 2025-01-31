@@ -32,15 +32,4 @@ class CoreController extends Controller
             return redirect()->route('dashboard')->with('error', 'Pengajuan Gagal DiSimpan');
         };
     }
-
-    public function fetchUserJoined(Request $request)
-    {
-        $eventId = $request->input('event_id');
-        $modelActiveEvent = ModelActiveEvent::where('event_id', $eventId)
-            ->with(['user.dataDiri', 'event'])
-            ->get();
-
-
-        return response()->json($modelActiveEvent);
-    }
 }

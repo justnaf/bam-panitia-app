@@ -48,7 +48,7 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     Route::post('/presences/{event}/{sesi}', [PresenceHistoryController::class, 'presencesStore'])->name('presences.store');
     /** End Presence Route */
 
-    Route::post('/getuser-joined', [CoreController::class, 'fetchUserJoined'])->name('get.user.joined'); // Untuk Manual Joined Event Model
+    Route::post('/getuser-joined', [ModelActiveEventController::class, 'fetchUserJoined'])->name('get.user.joined'); // Untuk Manual Joined Event Model
 
     /** Session Submission Route */
     Route::post('/sessions', [SesiController::class, 'getSessions'])->name('sessions.get');
