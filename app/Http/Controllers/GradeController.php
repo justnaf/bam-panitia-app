@@ -31,7 +31,7 @@ class GradeController extends Controller
 
         $modelHasGrades = ModelActiveEvent::where('event_id', $eventId)
             ->whereHas('user', function ($query) {
-                $query->where('roles', 'peserta'); // Ensure user has the "peserta" role
+                $query->where('roles', 'Peserta'); // Ensure user has the "peserta" role
             })
             ->with(['user.dataDiri', 'event'])
             ->get()
