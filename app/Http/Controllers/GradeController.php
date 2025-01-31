@@ -30,6 +30,9 @@ class GradeController extends Controller
         $sesis = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
 
         $modelHasGrades = ModelActiveEvent::where('event_id', $eventId)
+            ->whereHas('user', function ($query) {
+                $query->where('roles', 'peserta'); // Ensure user has the "peserta" role
+            })
             ->with(['user.dataDiri', 'event'])
             ->get()
             ->filter(function ($modelActiveEvent) use ($sesis) {
