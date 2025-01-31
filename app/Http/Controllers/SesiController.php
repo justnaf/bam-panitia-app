@@ -16,11 +16,11 @@ class SesiController extends Controller
      */
     public function index()
     {
-        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->first();
+        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->pluck('event_id');
         if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
             $events = Event::all();
         } else {
-            $events = Event::where('id', $modelActiveEvent->event_id)->get();
+            $events = Event::whereIn('id', $modelActiveEvent->event_id)->get();
         }
         return view('sesi.index', compact('events'));
     }
