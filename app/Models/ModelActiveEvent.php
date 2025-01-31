@@ -11,6 +11,7 @@ class ModelActiveEvent extends Model
         'event_id',
         'isJoin',
         'status',
+        'number'
     ];
 
     public function user()

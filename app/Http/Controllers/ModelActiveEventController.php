@@ -15,7 +15,7 @@ class ModelActiveEventController extends Controller
     public function index()
     {
         $events = Event::all(); // Ambil semua event
-        $activeEvents = ModelActiveEvent::with(['user', 'event'])->get(); // Ambil data pengguna yang bergabung
+        $activeEvents = ModelActiveEvent::with(['user.roles', 'event'])->get(); // Ambil data pengguna yang bergabung
         return view('events.joined.index', compact(['events', 'activeEvents']));
     }
 
@@ -43,6 +43,7 @@ class ModelActiveEventController extends Controller
         $data->event_id = $request->event_id;
         $data->isJoin = 1;
         $data->status = $request->status;
+        $data->number = null;
         $data->save();
 
         if ($data->wasRecentlyCreated) {
@@ -86,5 +87,16 @@ class ModelActiveEventController extends Controller
         } else {
             return redirect()->route('modelActiveEvents.index')->with('error', 'Joined Gagal Dihapus.');
         }
+    }
+
+    public function fetchUserJoined(Request $request)
+    {
+        $eventId = $request->input('event_id');
+        $modelActiveEvent = ModelActiveEvent::where('event_id', $eventId)
+            ->with(['user.dataDiri', 'user.roles', 'event'])
+            ->get();
+
+
+        return response()->json($modelActiveEvent);
     }
 }
