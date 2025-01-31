@@ -20,7 +20,7 @@ class SesiController extends Controller
         if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
             $events = Event::all();
         } else {
-            $events = Event::where('user_id', $modelActiveEvent->user_id)->get();
+            $events = Event::where('id', $modelActiveEvent->event_id)->get();
         }
         return view('sesi.index', compact('events'));
     }
