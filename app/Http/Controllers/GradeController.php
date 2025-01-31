@@ -16,11 +16,10 @@ class GradeController extends Controller
     public function index()
     {
         $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->first();
-        dd($modelActiveEvent);
         if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
             $events = Event::all();
         } else {
-            $events = Event::where('event_id', $modelActiveEvent[0]->event_id)->get();
+            $events = Event::where('id', $modelActiveEvent->event_id)->get();
         }
         return view('grade.index', compact('events'));
     }
