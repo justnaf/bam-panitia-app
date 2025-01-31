@@ -100,7 +100,6 @@ class GradeController extends Controller
             // Log the error for debugging
             Log::error('Error generating grades: ' . $e->getMessage());
 
-            dd($e);
             // Redirect with error message
             return redirect()->route('grades.index')->with('error', 'Gagal Generate Penilaian');
         }
