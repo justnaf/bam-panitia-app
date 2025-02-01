@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Grade Management') }}
+            {{ __('Semua Penilaian') }}
         </h2>
     </x-slot>
 
@@ -36,7 +36,6 @@
                                 <tr>
                                     <th class="px-2 py-3">#</th>
                                     <th class="px-2 py-3">Nomor Dada</th>
-                                    <th class="px-2 py-3">NPM</th>
                                     <th class="px-2 py-3">Nama</th>
                                     <th class="px-2 py-3">Aksi</th>
                                 </tr>
@@ -46,7 +45,6 @@
                                     <tr class="border-b">
                                         <td class="px-2 py-3" x-text="index + 1"></td>
                                         <td class="px-2 py-3" x-text="grade.number ?? '-'"></td>
-                                        <td class="px-2 py-3" x-text="grade.user.username"></td>
                                         <td class="px-2 py-3" x-text="grade.user.data_diri.name"></td>
                                         <td>
                                             <a :href="'grades/'+grade.user.code+'/'+grade.event_id+'/edit'" class="hover:text-emerald-500 text-lg" title="Edit Penilaian"><i class="fas fa-pencil-alt"></i></a>

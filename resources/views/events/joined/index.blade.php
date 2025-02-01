@@ -34,7 +34,6 @@
                                     <th class="px-2 py-3">Nomor Dada</th>
                                     <th class="px-2 py-3">NPM</th>
                                     <th class="px-2 py-3">Nama</th>
-                                    <th class="px-2 py-3">Email</th>
                                     <th class="px-2 py-3">Role</th>
                                     <th class="px-2 py-3">Aksi</th>
                                 </tr>
@@ -46,7 +45,6 @@
                                         <td class="px-2 py-3" x-text="session.number"></td>
                                         <td class="px-2 py-3" x-text="session.user.username"></td>
                                         <td class="px-2 py-3" x-text="session.user.data_diri.name"></td>
-                                        <td class="px-2 py-3" x-text="session.user.email"></td>
                                         <td class="px-2 py-3" x-text="session.user.roles[0].name"></td>
                                         <td>
                                             <a :href="'modelActiveEvents/'+session.id+'/edit'">Edit</a>

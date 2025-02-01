@@ -1,4 +1,4 @@
-<aside class="bg-gray-500 text-white transition-all duration-300 ease-in-out " :class="show ? 'w-52' : 'w-0 md:w-16'">
+<aside class="bg-gray-500 text-white transition-all duration-300 ease-in-out " :class="show ? 'w-1/2 md:w-52' : 'w-0 md:w-16'">
     <template x-if="show">
         <div>
             <section class="py-5 block bg-white px-3 mb-3">
