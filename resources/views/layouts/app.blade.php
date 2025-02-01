@@ -74,7 +74,7 @@
                 </template>
             </header>
             <template x-if="!show">
-                <main class="bg-gray-100 flex h-full px-3 py-5">
+                <main class="bg-gray-100 flex-1 h-full px-3 py-5">
                     {{ $slot }}
                 </main>
             </template>
