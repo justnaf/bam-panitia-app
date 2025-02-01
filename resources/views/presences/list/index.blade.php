@@ -33,11 +33,11 @@
                                     </template>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <template x-for="(student, index) in attendance" :key="student.id ?? index">
-                                    <tr class="border-b">
+                            <tbody x-data="{ counter: 1 }">
+                                <template x-for="student in attendance" :key="student.id ?? counter">
+                                    <tr class="border-b" x-init="$nextTick(() => counter++)">
                                         <!-- Kolom Nomor Urut -->
-                                        <td class="px-4 py-2" x-text="index + 1"></td>
+                                        <td class="px-4 py-2" x-text="counter"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>
                                         <template x-for="(status, sessionIndex) in student.sessions" :key="sessionIndex">
                                             <td class="px-4 py-2" x-text="status"></td>
