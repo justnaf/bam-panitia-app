@@ -50,13 +50,6 @@
                                         <td class="px-2 py-3" x-text="grade.user.data_diri.name"></td>
                                         <td>
                                             <a :href="'grades/'+grade.user.code+'/'+grade.event_id+'/edit'" class="hover:text-emerald-500" title="Edit Penilaian"><i class="fas fa-pencil-alt"></i></a>
-                                            <form method="POST" :action="'{{ route('grades.delete', '') }}/' + grade.user_id" x-data="deleteForm" x-ref="form">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="hover:text-red-500" @click="confirmDelete" title="Hapus Semua Nilai User">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
                                         </td>
                                     </tr>
                                 </template>
