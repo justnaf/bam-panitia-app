@@ -14,9 +14,12 @@
                         <form method="POST" action="{{route('presences.store',['event' => $event,'sesi' => $sesi])}}" class="text-center">
                             @csrf
                             @foreach ($user as $item)
+                            @if(!$cekFirst)
+                            @else
                             <div class="bg-gray-300 shadow-lg p-4 w-64 h-80 flex items-center justify-center mb-3">
                                 <img src="{{url('https://peserta.siaruna.com//storage/'.$item->dataDiri->profile_picture)}}" alt="{{$item->dataDiri->name}}" class="h-64 object-cover">
                             </div>
+                            @endif
                             <h1 class="font-extrabold text-lg">{{$item->dataDiri->name}}</h1>
                             <h1 class="font-extrabold text-lg">{{$item->username}}</h1>
                             <input type="text" name="user_id" hidden value="{{$item->id}}">
@@ -25,6 +28,7 @@
                             <div>
                                 <p>User Belum Join Kegiatan</p>
                             </div>
+                            <a href="{{route('presences.scanner',['event'=>$event,'sesi'=>$sesi])}}"></a>
                             @else
                             <input type="text" name="event_id" hidden value="{{$event}}">
                             <input type="text" name="sesi_id" hidden value="{{$sesi}}">
