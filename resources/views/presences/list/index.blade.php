@@ -33,7 +33,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="(index, student, studentId) in attendance" :key="studentId">
+                                <template x-for="(index, student) in attendance" :key="studentId">
                                     <tr class="border-b">
                                         <td class="px-4 py-2" x-text="index + 1"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>

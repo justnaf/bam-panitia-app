@@ -89,12 +89,15 @@ class PresenceHistoryController extends Controller
         }
 
         // Fetch all users and their attendance for the event
-        $users = User::role('Peserta')->with([
+        $users = User::role('Peserta')->whereHas('modelActiveEvent', function ($query) use ($eventId) {
+            $query->where('event_id', $eventId);
+        })->with([
             'presenceHistories' => function ($query) use ($eventId) {
                 $query->where('event_id', $eventId);
             },
             'dataDiri'
         ])->get();
+
 
 
         // Structure the data for frontend display
