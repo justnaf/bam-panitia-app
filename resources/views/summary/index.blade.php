@@ -205,7 +205,7 @@
                                 this.org = data.org;
                                 this.paper = data.paper;
                                 this.readin = data.readIn.original || {};
-                                this.top = data.top;
+                                this.top = data.top.original || {};
                                 console.log(this.top);
                                 this.createDoughnutChart();
                                 this.createOrgChart();
