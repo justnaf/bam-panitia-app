@@ -28,7 +28,7 @@
                             <div>
                                 <p>User Belum Join Kegiatan</p>
                             </div>
-                            <a href="{{route('presences.scanner',['event'=>$event,'sesi'=>$sesi])}}"></a>
+                            <a href="{{route('presences.scanner',['event'=>$event,'sesi'=>$sesi])}}" class="bg-emerald-500 px-2 py-2 rounded-md mt-3">Kembali Ke Scanner</a>
                             @else
                             <input type="text" name="event_id" hidden value="{{$event}}">
                             <input type="text" name="sesi_id" hidden value="{{$sesi}}">
