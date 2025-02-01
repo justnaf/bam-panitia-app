@@ -121,12 +121,15 @@ class GradeController extends Controller
     public function gradeEdit($userId, $eventId, $sesId)
     {
         $user = User::with('dataDiri')->where('code', $userId)->first();
-        $sesis = Grade::with('sesi')->where('sesi_id', $sesId)->where('user_id', $user->id)->where('event_id', $eventId)->get();
-        return view('grade.edit', compact(['sesis', 'user']));
+        $grades = Grade::with('sesi')->where('sesi_id', $sesId)->where('user_id', $user->id)->where('event_id', $eventId)->get();
+
+        dd($grades);
+        return view('grade.edit', compact(['grades', 'user']));
     }
 
-    public function update($userId, $eventId, $gradeId, Request $request)
+    public function update($userId, $eventId, Grade $gradeId, Request $request)
     {
+        dd($gradeId);
         // Find user by code
         $user = User::where('code', $userId)->first();
 
