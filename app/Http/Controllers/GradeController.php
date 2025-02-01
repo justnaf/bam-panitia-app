@@ -123,7 +123,6 @@ class GradeController extends Controller
         $user = User::with('dataDiri')->where('code', $userId)->first();
         $grades = Grade::with('sesi')->where('sesi_id', $sesId)->where('user_id', $user->id)->where('event_id', $eventId)->get();
 
-        dd($grades);
         return view('grade.edit', compact(['grades', 'user']));
     }
 
