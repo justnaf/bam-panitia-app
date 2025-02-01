@@ -98,14 +98,14 @@ class PresenceHistoryController extends Controller
             'dataDiri'
         ])->get();
 
-
-
         // Structure the data for frontend display
         $attendance = [];
+        $counter = 1;
         foreach ($users as $user) {
             $attendances = $user->presenceHistories->keyBy('sesi_id');
 
             $attendance[$user->id] = [
+                'index' => $counter++,  // Add an index
                 'name' => $user->dataDiri ? $user->dataDiri->name : 'No name available',
                 'sessions' => $sessions->map(function ($session) use ($attendances) {
                     $attendanceStatus = $attendances->get($session->id);
