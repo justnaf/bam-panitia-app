@@ -35,10 +35,7 @@ class PresenceHistoryController extends Controller
     {
         $user = User::with('dataDiri')->where('code', $qr)->get();
         $cekFirst = ModelActiveEvent::where('event_id', $event)->where('user_id', $user[0]->id)->first();
-        if (!$cekFirst) {
-            return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('error', 'User Belum Bergabung Silahkan Lakukan Undang Terlebih Dahulu');
-        }
-        return view('presences.show', compact(['event', 'sesi', 'user']));
+        return view('presences.show', compact(['event', 'sesi', 'user', 'cekFirst']));
     }
 
     public function presencesStore($event, $sesi, Request $request)

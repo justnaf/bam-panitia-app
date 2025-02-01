@@ -21,9 +21,15 @@
                             <h1 class="font-extrabold text-lg">{{$item->username}}</h1>
                             <input type="text" name="user_id" hidden value="{{$item->id}}">
                             @endforeach
+                            @if(!$cekFirst)
+                            <div>
+                                <p>User Belum Join Kegiatan</p>
+                            </div>
+                            @else
                             <input type="text" name="event_id" hidden value="{{$event}}">
                             <input type="text" name="sesi_id" hidden value="{{$sesi}}">
                             <button type="submit" class="bg-emerald-500 px-2 py-1 rounded-md text-white hover:bg-blue-500 font-extrabold">Hadir</button>
+                            @endif
                         </form>
                     </div>
                 </div>
