@@ -82,6 +82,8 @@
                             .then(data => {
                                 this.sessions = data.sessions; // Store sessions data
                                 this.attendance = data.attendance; // Store attendance data
+                                console.log(this.attendance);
+
                             })
                             .catch(error => console.error('Error fetching sessions:', error));
                     } else {
