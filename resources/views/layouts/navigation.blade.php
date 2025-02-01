@@ -53,7 +53,7 @@
         </div>
     </template>
     <template x-if="!show">
-        <div>
+        <div class="hidden md:block">
             <div class="py-5 flex justify-center bg-white px-3 text-black">
                 <span class="block mx-auto"><i class="fas fa-mug-hot"></i></span>
             </div>

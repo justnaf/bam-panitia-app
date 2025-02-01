@@ -15,9 +15,6 @@
                         <p>
                             Hallo Selamat Datang
                         </p>
-                        <div class="mt-2">
-                            <a href="{{route('presences.index')}}" class="bg-orange-500 px-3 py-2 text-white rounded-md hover:bg-emerald-500">Buka Untuk Presensi</a>
-                        </div>
                     </div>
                     @else
                     <div class="text-center">
