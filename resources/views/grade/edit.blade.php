@@ -12,11 +12,11 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                     <div class="p-6 text-gray-900 overflow-x-auto ">
                         <h1 class="text-center font-extrabold text-xl mb-4">Edit Penilaian</h1>
-                        <h2 class="text-center text-sm">{{$user[0]->dataDiri->name}}</h2>
-                        <h3 class="text-center font-bold text-sm">{{$user[0]->username}}</h3>
+                        <h2 class="text-center text-sm">{{$user->dataDiri->name}}</h2>
+                        <h3 class="text-center font-bold text-sm">{{$user->username}}</h3>
                         <div class="max-w-lg mx-auto">
                             <h1 class="text-center font-bold">{{$sesis[0]->sesi->name}}</h1>
-                            <form method="POST" action="{{route('grades.update',['eventId'=>$sesis[0]->event_id,'userId'=>$user[0]->code,'gradeId'=>$sesis[0]->id])}}" class="mt-3 text-center">
+                            <form method="POST" action="{{route('grades.update',['eventId'=>$sesis[0]->event_id,'userId'=>$user->code,'gradeId'=>$sesis[0]->id])}}" class="mt-3 text-center">
                                 @csrf
                                 @method('PUT')
                                 <div class="w-full px-1 mb-4">
