@@ -49,7 +49,7 @@
                                         <td class="px-2 py-3" x-text="grade.user.username"></td>
                                         <td class="px-2 py-3" x-text="grade.user.data_diri.name"></td>
                                         <td>
-                                            <a :href="'grades/'+grade.user.code+'/'+grade.event_id+'/edit'" class="hover:text-emerald-500" title="Edit Penilaian"><i class="fas fa-pencil-alt"></i></a>
+                                            <a :href="'grades/'+grade.user.code+'/'+grade.event_id+'/edit'" class="hover:text-emerald-500 text-lg" title="Edit Penilaian"><i class="fas fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 </template>
