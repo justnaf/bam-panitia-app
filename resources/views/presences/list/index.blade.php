@@ -33,9 +33,9 @@
                                     </template>
                                 </tr>
                             </thead>
-                            <tbody x-data="{ counter: 1 }">
+                            <tbody>
                                 <template x-for="student in attendance" :key="student.id ?? counter">
-                                    <tr class="border-b" x-init="$nextTick(() => counter++)">
+                                    <tr class="border-b">
                                         <!-- Kolom Nomor Urut -->
                                         <td class="px-4 py-2" x-text="counter"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>
@@ -59,12 +59,15 @@
             return {
                 selectedEvent: initialEventId
                 , sessions: []
-                , attendance: {},
+                , attendance: {}
+                , counter: 1,
 
                 init() {
                     if (this.selectedEvent) {
                         this.fetchSessions();
                     }
+                    , counter++,
+
                 },
 
                 fetchSessions() {
