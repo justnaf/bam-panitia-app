@@ -34,7 +34,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="(student, index) in attendance" :key="student.id ?? index">
+                                <template x-for="(student, index) in sortedAttendance()" :key="student.id ?? index">
                                     <tr class="border-b">
                                         <!-- Kolom Nomor Urut -->
                                         <td class="px-4 py-2" x-text="student.index"></td> <!-- Display the index -->
@@ -82,14 +82,17 @@
                             .then(data => {
                                 this.sessions = data.sessions; // Store sessions data
                                 this.attendance = data.attendance; // Store attendance data
-                                console.log(this.attendance);
-
                             })
                             .catch(error => console.error('Error fetching sessions:', error));
                     } else {
                         this.sessions = [];
                         this.attendance = {};
                     }
+                },
+
+                sortedAttendance() {
+                    // Sort attendance by the index before rendering
+                    return Object.values(this.attendance).sort((a, b) => a.index - b.index);
                 }
             };
         }
