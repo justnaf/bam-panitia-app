@@ -157,10 +157,10 @@
                                     <tbody>
                                         <template x-for="(peserta, index) in top['perempuan']" :key="index">
                                             <tr>
-                                                <td x-text="index + 1"></td>
-                                                <td x-text="peserta.npm"></td>
-                                                <td x-text="peserta.name"></td>
-                                                <td x-text="peserta.overall_score.toFixed(2)"></td>
+                                                <td class="px-2 py-3" x-text="index + 1"></td>
+                                                <td class="px-2 py-3" x-text="peserta.npm"></td>
+                                                <td class="px-2 py-3" x-text="peserta.name"></td>
+                                                <td class="px-2 py-3" x-text="peserta.overall_score.toFixed(2)"></td>
                                             </tr>
                                         </template>
                                     </tbody>
