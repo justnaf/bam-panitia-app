@@ -125,8 +125,10 @@ class GradeController extends Controller
         return view('grade.edit', compact(['sesis', 'user']));
     }
 
-    public function update($userId, $eventId, Grade $gradeId, Request $request)
+    public function update($userId, $eventId, $gradeId, Request $request)
     {
+        $user = User::where('code', $userId)->first();
+        $data = Grade::where('sesi_id', $gradeId)->where('event_id', $eventId)->where('user_id', $user[0]->id)->get();
 
         $gradeId->poin_1 = $request->poin_1;
         $gradeId->poin_2 = $request->poin_2;
