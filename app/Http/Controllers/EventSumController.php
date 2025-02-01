@@ -236,12 +236,12 @@ class EventSumController extends Controller
                     $overall_score = $totalPoin / ($totalSesi * 4);
                 }
 
-                return [
+                return response()->json([
                     'name' => $peserta->user->dataDiri->name ?? 'Unknown',
                     'npm' => $peserta->user->username,
                     'gender' => $peserta->user->dataDiri->gender ?? 'Unknown',
                     'overall_score' => $overall_score,
-                ];
+                ]);
             });
 
         $topMale = $dataPeserta->where('gender', 'Laki-laki')->sortByDesc('overall_score')->take(5)->values();
