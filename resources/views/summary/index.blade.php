@@ -101,6 +101,79 @@
                         </template>
                     </div>
                 </div>
+
+                <!-- Table Best Laki-laki -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-3 text-gray-900">
+                        <h1 class="text-center font-bold text-lg">Tabel Peserta Terbaik Laki-laki</h1>
+                        <template x-if="!selectedEvent">
+                            <p class="text-center">Silahkan Pilih Kegiatan</p>
+                        </template>
+                        <template x-if="selectedEvent">
+                            <div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>NPM</th>
+                                            <th>Nama</th>
+                                            <th>Skor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(peserta, index) in top['laki_laki']" :key="index">
+                                            <tr>
+                                                <td x-text="index + 1"></td>
+                                                <td x-text="peserta.npm"></td>
+                                                <td x-text="peserta.name"></td>
+                                                <td x-text="peserta.overall_score.toFixed(2)"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Table Best Perempuan -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-3 text-gray-900">
+                        <h1 class="text-center font-bold text-lg">Tabel Peserta Teraik Perempuan</h1>
+                        <template x-if="!selectedEvent">
+                            <p class="text-center">Silahkan Pilih Kegiatan</p>
+                        </template>
+                        <template x-if="selectedEvent">
+                            <div>
+                                <canvas id="graphReadIn"></canvas>
+                                <div>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>NPM</th>
+                                                <th>Nama</th>
+                                                <th>Skor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template x-for="(peserta, index) in top['perempuan']" :key="index">
+                                                <tr>
+                                                    <td x-text="index + 1"></td>
+                                                    <td x-text="peserta.npm"></td>
+                                                    <td x-text="peserta.name"></td>
+                                                    <td x-text="peserta.overall_score.toFixed(2)"></td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -113,7 +186,8 @@
                 , gender: {}
                 , org: {}
                 , paper: {}
-                , readin: {},
+                , readin: {}
+                , top: {},
 
                 fetchSessions() {
                     if (this.selectedEvent) {
@@ -134,6 +208,8 @@
                                 this.org = data.org;
                                 this.paper = data.paper;
                                 this.readin = data.readIn.original || {};
+                                this.top = data.top;
+                                console.log(this.top);
                                 this.createDoughnutChart();
                                 this.createOrgChart();
                                 this.createPaperChart();

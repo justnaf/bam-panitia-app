@@ -13,6 +13,7 @@ class EventSumController extends Controller
 {
     public function eventSummary()
     {
+
         $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->pluck('event_id');
         if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
             $events = Event::all();
@@ -211,6 +212,46 @@ class EventSumController extends Controller
         return response()->json($categoryCounts);
     }
 
+    public function getTopParticipant($event_id)
+    {
+        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'grades'])
+            ->where('event_id', $event_id)
+            ->whereHas('user', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Peserta');
+                });
+            })
+            ->get()
+            ->map(function ($peserta) {
+                $grades = $peserta->grades;
+                $totalSesi = $grades->count();
+
+                if ($totalSesi == 0) {
+                    $overall_score = 0;
+                } else {
+                    $totalPoin = $grades->sum(function ($grade) {
+                        return $grade->poin_1 + $grade->poin_2 + $grade->poin_3 + $grade->poin_4;
+                    });
+
+                    $overall_score = $totalPoin / ($totalSesi * 4);
+                }
+
+                return [
+                    'name' => $peserta->user->dataDiri->name ?? 'Unknown',
+                    'npm' => $peserta->user->username,
+                    'gender' => $peserta->user->dataDiri->gender ?? 'Unknown',
+                    'overall_score' => $overall_score,
+                ];
+            });
+
+        $topMale = $dataPeserta->where('gender', 'Laki-laki')->sortByDesc('overall_score')->take(5)->values();
+        $topFemale = $dataPeserta->where('gender', 'Perempuan')->sortByDesc('overall_score')->take(5)->values();
+
+        return response()->json([
+            'laki_laki' => $topMale,
+            'perempuan' => $topFemale,
+        ]);
+    }
 
     public function getSummaryData(Request $request)
     {
@@ -218,13 +259,15 @@ class EventSumController extends Controller
         $orgData = $this->getOrg($request->event_id);
         $paperData = $this->getOwnPaper($request->event_id);
         $readInData = $this->getReadInterest($request->event_id);
+        $topData = $this->getTopParticipant($request->event_id);
 
         // Return the data as a combined response
         return response()->json([
             'gender' => $genderData,
             'org' => $orgData,
             'paper' => $paperData,
-            'readIn' => $readInData
+            'readIn' => $readInData,
+            'top' => $topData
         ]);
     }
 }
