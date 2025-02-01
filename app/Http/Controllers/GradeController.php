@@ -121,7 +121,7 @@ class GradeController extends Controller
     public function gradeEdit($userId, $eventId, $sesId)
     {
         $user = User::with('dataDiri')->where('code', $userId)->get();
-        $sesis = Grade::with('sesi')->where('sesi_id', $sesId)->get();
+        $sesis = Grade::with('sesi')->where('sesi_id', $sesId)->where('user_id', $user->id)->where('event_id', $eventId)->get();
         return view('grade.edit', compact(['sesis', 'user']));
     }
 
@@ -135,7 +135,6 @@ class GradeController extends Controller
             return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))
                 ->with('error', 'User not found');
         }
-
         // Find the grade record
         $data = Grade::where('sesi_id', $gradeId)
             ->where('event_id', $eventId)
