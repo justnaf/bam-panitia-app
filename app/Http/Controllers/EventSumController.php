@@ -214,7 +214,7 @@ class EventSumController extends Controller
 
     public function getTopParticipant($event_id)
     {
-        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'user.grades'])
+        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'user.grade'])  // Make sure you are loading 'grades' correctly
             ->where('event_id', $event_id)
             ->whereHas('user', function ($query) {
                 $query->whereHas('roles', function ($roleQuery) {
@@ -223,7 +223,7 @@ class EventSumController extends Controller
             })
             ->get()
             ->map(function ($peserta) {
-                $grades = $peserta->user->grades; // Use 'user' relationship to access grades
+                $grades = $peserta->user->grades ?? collect();  // If grades are missing, use an empty collection
                 $totalSesi = $grades->count();
 
                 if ($totalSesi == 0) {

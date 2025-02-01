@@ -111,22 +111,22 @@
                         </template>
                         <template x-if="selectedEvent">
                             <div>
-                                <table>
-                                    <thead>
+                                <table class="w-full text-sm text-left text-gray-500 border border-gray-200 ">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                         <tr>
-                                            <th>#</th>
-                                            <th>NPM</th>
-                                            <th>Nama</th>
-                                            <th>Skor</th>
+                                            <th class="px-2 py-3">#</th>
+                                            <th class="px-2 py-3">NPM</th>
+                                            <th class="px-2 py-3">Nama</th>
+                                            <th class="px-2 py-3">Skor</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <template x-for="(peserta, index) in top['laki_laki']" :key="index">
                                             <tr>
-                                                <td x-text="index + 1"></td>
-                                                <td x-text="peserta.npm"></td>
-                                                <td x-text="peserta.name"></td>
-                                                <td x-text="peserta.overall_score.toFixed(2)"></td>
+                                                <td class="px-2 py-3" x-text="index + 1"></td>
+                                                <td class="px-2 py-3" x-text="peserta.npm"></td>
+                                                <td class="px-2 py-3" x-text="peserta.name"></td>
+                                                <td class="px-2 py-3" x-text="peserta.overall_score.toFixed(2)"></td>
                                             </tr>
                                         </template>
                                     </tbody>
@@ -145,29 +145,26 @@
                         </template>
                         <template x-if="selectedEvent">
                             <div>
-                                <canvas id="graphReadIn"></canvas>
-                                <div>
-                                    <table>
-                                        <thead>
+                                <table class="w-full text-sm text-left text-gray-500 border border-gray-200 ">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
+                                        <tr>
+                                            <th class="px-2 py-3">#</th>
+                                            <th class="px-2 py-3">NPM</th>
+                                            <th class="px-2 py-3">Nama</th>
+                                            <th class="px-2 py-3">Skor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(peserta, index) in top['perempuan']" :key="index">
                                             <tr>
-                                                <th>#</th>
-                                                <th>NPM</th>
-                                                <th>Nama</th>
-                                                <th>Skor</th>
+                                                <td x-text="index + 1"></td>
+                                                <td x-text="peserta.npm"></td>
+                                                <td x-text="peserta.name"></td>
+                                                <td x-text="peserta.overall_score.toFixed(2)"></td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <template x-for="(peserta, index) in top['perempuan']" :key="index">
-                                                <tr>
-                                                    <td x-text="index + 1"></td>
-                                                    <td x-text="peserta.npm"></td>
-                                                    <td x-text="peserta.name"></td>
-                                                    <td x-text="peserta.overall_score.toFixed(2)"></td>
-                                                </tr>
-                                            </template>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        </template>
+                                    </tbody>
+                                </table>
                             </div>
                         </template>
                     </div>
