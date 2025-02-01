@@ -134,7 +134,7 @@ class GradeController extends Controller
         $data->poin_2 = $request->poin_2;
         $data->poin_3 = $request->poin_3;
         $data->poin_4 = $request->poin_4;
-        if ($gradeId->save()) {
+        if ($data->save()) {
             return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))->with('success', 'Penilaian Berhasil Di Update');
         }
         return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))->with('success', 'Penilaian Gagal Di Update');
