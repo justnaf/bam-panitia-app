@@ -23,7 +23,7 @@
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                     <div class="p-6 text-gray-900">
-                        <table class="w-full text-sm text-left text-gray-500 border border-gray-200 ">
+                        <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
                                     <th class="px-4 py-2">Nama Mahasiswa</th>
@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+
     @push('addedScript')
     <script>
         function eventHandler(initialEventId) {
@@ -59,7 +60,6 @@
                 init() {
                     if (this.selectedEvent) {
                         this.fetchSessions();
-
                     }
                 },
 
@@ -79,6 +79,8 @@
                             .then(data => {
                                 this.sessions = data.sessions; // Store sessions data
                                 this.attendance = data.attendance; // Store attendance data
+                                console.log(this.attendance);
+
                             })
                             .catch(error => console.error('Error fetching sessions:', error));
                     } else {
@@ -86,7 +88,7 @@
                         this.attendance = {};
                     }
                 }
-            , };
+            };
         }
 
     </script>

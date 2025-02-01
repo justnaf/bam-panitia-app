@@ -27,4 +27,9 @@ class Sesi extends Model
     {
         return $this->hasMany(Grade::class);
     }
+
+    public function presenceHistories()
+    {
+        return $this->hasMany(PresenceHistory::class);
+    }
 }

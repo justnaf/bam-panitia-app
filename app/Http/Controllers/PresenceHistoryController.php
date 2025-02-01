@@ -73,39 +73,46 @@ class PresenceHistoryController extends Controller
 
     public function getPresencesHistory(Request $request)
     {
-        try {
-            $eventId = $request->event_id;
+        // Validate event_id input
+        $validated = $request->validate([
+            'event_id' => 'required|exists:events,id',
+        ]);
 
-            // Fetch all sessions for the given event
-            $sessions = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
+        $eventId = $validated['event_id'];
 
-            // Fetch all users and their attendance for the event and group by user_id
-            $attendanceData = PresenceHistory::with('user', 'sesi')
-                ->where('event_id', $eventId)
-                ->get()
-                ->groupBy('user_id'); // Group by user_id
+        // Fetch all sessions for the given event
+        $sessions = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
 
-            // Structure the data for frontend display
-            $attendance = [];
-            foreach ($attendanceData as $userId => $attendances) {
-                $user = $attendances->first()->user; // Get the user data (assuming it's the same for all sessions)
-                $attendance[$user->id] = [
-                    'name' => $user->name,
-                    'sessions' => $sessions->map(function ($session) use ($attendances) {
-                        $attendanceStatus = $attendances->where('sesi_id', $session->id)->first();
-                        return $attendanceStatus ? $attendanceStatus->status : 'Absen'; // Default to 'Absen' if no attendance found
-                    })
-                ];
-            }
-
-            return response()->json([
-                'sessions' => $sessions,
-                'attendance' => $attendance
-            ]);
-        } catch (\Exception $e) {
-            // Log the exception and return a proper error response
-            Log::error('Error fetching presence history: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+        // If no sessions found, return an error
+        if ($sessions->isEmpty()) {
+            return response()->json(['error' => 'No sessions found for this event'], 404);
         }
+
+        // Fetch all users and their attendance for the event
+        $users = User::with([
+            'presenceHistories' => function ($query) use ($eventId) {
+                $query->where('event_id', $eventId);
+            },
+            'dataDiri'
+        ])->get();
+
+        // Structure the data for frontend display
+        $attendance = [];
+        foreach ($users as $user) {
+            $attendances = $user->presenceHistories->keyBy('sesi_id');
+
+            $attendance[$user->id] = [
+                'name' => $user->dataDiri ? $user->dataDiri->name : 'No name available',
+                'sessions' => $sessions->map(function ($session) use ($attendances) {
+                    $attendanceStatus = $attendances->get($session->id);
+                    return $attendanceStatus ? $attendanceStatus->status : 'Belum Absen';
+                })
+            ];
+        }
+
+        return response()->json([
+            'sessions' => $sessions,
+            'attendance' => $attendance
+        ]);
     }
 }

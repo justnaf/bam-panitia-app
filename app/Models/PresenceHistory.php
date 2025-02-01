@@ -15,16 +15,16 @@ class PresenceHistory extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function event()
     {
-        return $this->hasMany(Event::class);
+        return $this->belongsTo(Event::class);
     }
 
     public function sesi()
     {
-        return $this->hasMany(Sesi::class);
+        return $this->belongsTo(Sesi::class);
     }
 }

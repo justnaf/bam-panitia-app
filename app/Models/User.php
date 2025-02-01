@@ -71,6 +71,10 @@ class User extends Authenticatable
         return $this->hasMany(PresenceHistory::class);
     }
 
+    public function presenceHistories()
+    {
+        return $this->hasMany(PresenceHistory::class);
+    }
     public function grade()
     {
         return $this->hasMany(Grade::class);
