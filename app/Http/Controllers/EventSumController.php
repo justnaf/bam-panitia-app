@@ -24,7 +24,14 @@ class EventSumController extends Controller
 
     public function getPeserta($event_id)
     {
-        $dataPeserta = ModelActiveEvent::with('user.dataDiri')->where('event_id', $event_id)->where('status', 'Peserta')->get();
+        $dataPeserta = ModelActiveEvent::with('user.dataDiri')
+            ->where('event_id', $event_id)
+            ->whereHas('user', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Peserta');
+                });
+            })
+            ->get();
 
         // Initialize counters
         $lakiLakiCount = 0;
