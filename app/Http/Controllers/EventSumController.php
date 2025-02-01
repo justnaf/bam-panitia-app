@@ -105,15 +105,119 @@ class EventSumController extends Controller
         ];
     }
 
+    public function getOwnPaper($event_id)
+    {
+        $dataPeserta = ModelActiveEvent::with('user.OwnPaper')->where('event_id', $event_id)->get();
+        // Initialize counters
+        $paperCount1 = 0;
+        $paperCount2 = 0;
+        $paperCount3 = 0;
+        $paperCount4 = 0;
+        $paperCount5 = 0;
+
+        // Loop through the participants and count gender and orgHistories
+        foreach ($dataPeserta as $peserta) {
+            // Get the count of orgHistories for each user
+            $paperHistoryCount = $peserta->user->OwnPaper->count();
+
+            // Limit the count to a maximum of 5
+            if ($paperHistoryCount > 5) {
+                $paperHistoryCount = 5;
+            }
+
+            // Count the gender and the organization count
+            if ($peserta->user->dataDiri->gender == 'Laki-laki') {
+                if ($paperHistoryCount == 1) {
+                    $paperCount1++;
+                } elseif ($paperHistoryCount == 2) {
+                    $paperCount2++;
+                } elseif ($paperHistoryCount == 3) {
+                    $paperCount3++;
+                } elseif ($paperHistoryCount == 4) {
+                    $paperCount4++;
+                } elseif ($paperHistoryCount == 5) {
+                    $paperCount5++;
+                }
+            } elseif ($peserta->user->dataDiri->gender == 'Perempuan') {
+                if ($paperHistoryCount == 1) {
+                    $paperCount1++;
+                } elseif ($paperHistoryCount == 2) {
+                    $paperCount2++;
+                } elseif ($paperHistoryCount == 3) {
+                    $paperCount3++;
+                } elseif ($paperHistoryCount == 4) {
+                    $paperCount4++;
+                } elseif ($paperHistoryCount == 5) {
+                    $paperCount5++;
+                }
+            }
+        }
+
+        // Return only the counts, not the full response
+        return [
+            '1 Paper' => $paperCount1,
+            '2 Paper' => $paperCount2,
+            '3 Paper' => $paperCount3,
+            '4 Paper' => $paperCount4,
+            '5+ Paper' => $paperCount5,  // Combine 5 or more into one group
+        ];
+    }
+
+    public function getReadInterest($event_id)
+    {
+        // Define categories
+        $categories = [
+            'antologi',
+            'biografi',
+            'dongeng',
+            'ensiklopedi',
+            'jurnal',
+            'komik',
+            'agama',
+            'novel',
+            'sejarah',
+            'lain-lain'
+        ];
+
+        // Initialize category counters
+        $categoryCounts = array_fill_keys($categories, 0);
+
+        // Fetch participants with their Read Interests
+        $dataPeserta = ModelActiveEvent::with('user.ReadInterest')
+            ->where('event_id', $event_id)
+            ->get();
+
+        // Loop through participants and count read interests per category
+        foreach ($dataPeserta as $peserta) {
+            foreach ($peserta->user->ReadInterest as $readIn) {
+                $type = strtolower($readIn->type); // Normalize category names
+
+                if (array_key_exists($type, $categoryCounts)) {
+                    $categoryCounts[$type]++;
+                } else {
+                    $categoryCounts['lain-lain']++; // Count unknown types in "lain-lain"
+                }
+            }
+        }
+
+        // Return the count per category
+        return response()->json($categoryCounts);
+    }
+
+
     public function getSummaryData(Request $request)
     {
-        $genderData = $this->getPeserta($request->event_id);  // Call your existing getPeserta method
-        $orgData = $this->getOrg($request->event_id);  // Call your existing getOrg method
+        $genderData = $this->getPeserta($request->event_id);
+        $orgData = $this->getOrg($request->event_id);
+        $paperData = $this->getOwnPaper($request->event_id);
+        $readInData = $this->getReadInterest($request->event_id);
 
         // Return the data as a combined response
         return response()->json([
             'gender' => $genderData,
-            'org' => $orgData
+            'org' => $orgData,
+            'paper' => $paperData,
+            'readIn' => $readInData
         ]);
     }
 }

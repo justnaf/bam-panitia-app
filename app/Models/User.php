@@ -100,5 +100,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(OwnPaper::class);
     }
+
+    public function ReadInterest()
+    {
+        return $this->hasMany(ReadInterest::class);
+    }
     // end Detail Of User
 }

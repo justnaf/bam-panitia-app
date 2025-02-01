@@ -18,7 +18,8 @@
                 <x-input-error :messages="$errors->get('event_id')" class="mt-2" />
             </div>
             <div class="grid grid-cols-2 gap-3">
-                <!-- Gender Grafik -->
+
+                <!-- Gender Chart -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-3 text-gray-900">
                         <h1 class="text-center font-bold text-lg">Grafik Peserta</h1>
@@ -37,7 +38,7 @@
                     </div>
                 </div>
 
-                <!-- Organization Grafik -->
+                <!-- Organization Chart -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-3 text-gray-900">
                         <h1 class="text-center font-bold text-lg">Grafik Pengalaman Organisasi</h1>
@@ -59,9 +60,45 @@
                     </div>
                 </div>
 
+                <!-- Karya Tulis Chart -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-3 text-gray-900">
+                        <h1 class="text-center font-bold text-lg">Grafik Karya Tulis</h1>
+                        <template x-if="!selectedEvent">
+                            <p class="text-center">Silahkan Pilih Kegiatan</p>
+                        </template>
+                        <template x-if="selectedEvent">
+                            <div>
+                                <canvas id="graphPaper"></canvas>
+                                <div>
+                                    <p class="font-bold">1 Karya Tulis: <span x-text="paper['1 Paper']"></span></p>
+                                    <p class="font-bold">2 Karya Tulis: <span x-text="paper['2 Paper']"></span></p>
+                                    <p class="font-bold">3 Karya Tulis: <span x-text="paper['3 Paper']"></span></p>
+                                    <p class="font-bold">4 Karya Tulis: <span x-text="paper['4 Paper']"></span></p>
+                                    <p class="font-bold">5+ Karya Tulis: <span x-text="paper['5+ Paper']"></span></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Minat Baca Chart -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-3 text-gray-900">
                         <h1 class="text-center font-bold text-lg">Grafik Minat Baca</h1>
+                        <template x-if="!selectedEvent">
+                            <p class="text-center">Silahkan Pilih Kegiatan</p>
+                        </template>
+                        <template x-if="selectedEvent">
+                            <div>
+                                <canvas id="graphReadIn"></canvas>
+                                <div>
+                                    <template x-for="[category, count] in Object.entries(readin)">
+                                        <p class="font-bold" x-text="`${category}: ${count}`"></p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -74,7 +111,9 @@
             return {
                 selectedEvent: ''
                 , gender: {}
-                , org: {},
+                , org: {}
+                , paper: {}
+                , readin: {},
 
                 fetchSessions() {
                     if (this.selectedEvent) {
@@ -90,17 +129,22 @@
                             })
                             .then(response => response.json())
                             .then(data => {
-                                console.log(data); // Debugging log to see the full response
-                                this.gender = data.gender; // Now you can directly use gender data
-                                this.org = data.org; // Now you can directly use org data
-                                this.createDoughnutChart(); // Create Gender Chart after data is fetched
-                                this.createOrgChart(); // Create Organization Chart after data is fetched
+                                console.log(data);
+                                this.gender = data.gender;
+                                this.org = data.org;
+                                this.paper = data.paper;
+                                this.readin = data.readIn;
+                                this.createDoughnutChart();
+                                this.createOrgChart();
+                                this.createPaperChart();
+                                this.createReadInChart();
                             })
                             .catch(error => console.error('Error fetching summary data:', error));
 
                     } else {
                         this.gender = [];
                         this.org = [];
+                        this.paper = [];
                     }
                 },
 
@@ -142,19 +186,16 @@
                 createOrgChart() {
                     const ctx = document.getElementById('graphOrg').getContext('2d');
 
-                    // Destroy any existing chart to avoid reinitializing on each fetch
                     if (this.orgChart) {
                         this.orgChart.destroy();
                     }
 
-                    // Unwrap Proxy object (if applicable) and handle the values
                     const org1 = this.org['1 Organisasi'] || 0;
                     const org2 = this.org['2 Organisasi'] || 0;
                     const org3 = this.org['3 Organisasi'] || 0;
                     const org4 = this.org['4 Organisasi'] || 0;
                     const org5Plus = this.org['5+ Organisasi'] || 0;
 
-                    // Create new chart
                     this.orgChart = new Chart(ctx, {
                         type: 'doughnut'
                         , data: {
@@ -176,6 +217,83 @@
                         }
                     });
                 }
+
+                // Paper Chart
+                , createPaperChart() {
+                    const ctx = document.getElementById('graphPaper').getContext('2d');
+
+                    // Destroy any existing chart to avoid reinitializing on each fetch
+                    if (this.paperChart) {
+                        this.paperChart.destroy();
+                    }
+
+                    // Unwrap Proxy object (if applicable) and handle the values
+                    const paper1 = this.paper['1 Paper'] || 0;
+                    const paper2 = this.paper['2 Paper'] || 0;
+                    const paper3 = this.paper['3 Paper'] || 0;
+                    const paper4 = this.paper['4 Paper'] || 0;
+                    const paper5Plus = this.paper['5+ Paper'] || 0;
+
+                    // Create new chart
+                    this.paperChart = new Chart(ctx, {
+                        type: 'doughnut'
+                        , data: {
+                            labels: ['1 Karya Tulis', '2 Karya Tulis', '3 Karya Tulis', '4 Karya Tulis', '5+ Karya Tulis']
+                            , datasets: [{
+                                data: [paper1, paper2, paper3, paper4, paper5Plus]
+                                , backgroundColor: [
+                                    'rgb(75, 192, 192)'
+                                    , 'rgb(153, 102, 255)'
+                                    , 'rgb(255, 159, 64)'
+                                    , 'rgb(255, 205, 86)'
+                                    , 'rgb(201, 203, 207)'
+                                ]
+                                , hoverOffset: 4
+                            }]
+                        }
+                        , options: {
+                            responsive: true
+                        }
+                    });
+                }
+
+                // Read Interest (Minat Baca) Chart
+                , createReadInChart() {
+                    const ctx = document.getElementById('graphReadIn').getContext('2d');
+
+                    // Destroy any existing chart
+                    if (this.readInChart) {
+                        this.readInChart.destroy();
+                    }
+
+                    // Extract categories and counts
+                    const labels = Object.keys(this.readin);
+                    const data = Object.values(this.readin);
+
+                    // Define colors dynamically
+                    const colors = [
+                        'rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)'
+                        , 'rgb(75, 192, 192)', 'rgb(153, 102, 255)', 'rgb(255, 159, 64)'
+                        , 'rgb(201, 203, 207)', 'rgb(100, 149, 237)', 'rgb(144, 238, 144)', 'rgb(255, 182, 193)'
+                    ];
+
+                    // Create a new chart
+                    this.readInChart = new Chart(ctx, {
+                        type: 'doughnut'
+                        , data: {
+                            labels: labels
+                            , datasets: [{
+                                data: data
+                                , backgroundColor: colors.slice(0, labels.length), // Assign colors based on labels
+                                hoverOffset: 4
+                            }]
+                        }
+                        , options: {
+                            responsive: true
+                        }
+                    });
+                }
+
             }
         }
 
