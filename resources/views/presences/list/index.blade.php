@@ -33,12 +33,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="(student, index) in attendance" :key="student.id">
+                                <template x-for="(student, studentId) in attendance" :key="studentId">
                                     <tr class="border-b">
-                                        <!-- Menampilkan nomor urut -->
-                                        <td class="px-4 py-2" x-text="index + 1"></td>
+                                        <td class="px-4 py-2" x-text="studenId"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>
-                                        <template x-for="(status, sessionIndex) in student.sessions" :key="sessionIndex">
+                                        <template x-for="(status, index) in student.sessions" :key="index">
                                             <td class="px-4 py-2" x-text="status"></td>
                                         </template>
                                     </tr>
