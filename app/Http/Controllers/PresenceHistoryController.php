@@ -9,6 +9,7 @@ use App\Models\ModelActiveEvent;
 use App\Models\Sesi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PresenceHistoryController extends Controller
 {
@@ -72,33 +73,39 @@ class PresenceHistoryController extends Controller
 
     public function getPresencesHistory(Request $request)
     {
-        $eventId = $request->event_id;
+        try {
+            $eventId = $request->event_id;
 
-        // Fetch all sessions for the given event
-        $sessions = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
+            // Fetch all sessions for the given event
+            $sessions = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
 
-        // Fetch all users and their attendance for the event and group by user_id
-        $attendanceData = PresenceHistory::with('user', 'sesi')
-            ->where('event_id', $eventId)
-            ->get()
-            ->groupBy('user_id'); // Group by user_id
+            // Fetch all users and their attendance for the event and group by user_id
+            $attendanceData = PresenceHistory::with('user', 'sesi')
+                ->where('event_id', $eventId)
+                ->get()
+                ->groupBy('user_id'); // Group by user_id
 
-        // Structure the data for frontend display
-        $attendance = [];
-        foreach ($attendanceData as $userId => $attendances) {
-            $user = $attendances->first()->user; // Get the user data (assuming it's the same for all sessions)
-            $attendance[$user->id] = [
-                'name' => $user->name,
-                'sessions' => $sessions->map(function ($session) use ($attendances) {
-                    $attendanceStatus = $attendances->where('sesi_id', $session->id)->first();
-                    return $attendanceStatus ? $attendanceStatus->status : 'Absen'; // Default to 'Absen' if no attendance found
-                })
-            ];
+            // Structure the data for frontend display
+            $attendance = [];
+            foreach ($attendanceData as $userId => $attendances) {
+                $user = $attendances->first()->user; // Get the user data (assuming it's the same for all sessions)
+                $attendance[$user->id] = [
+                    'name' => $user->name,
+                    'sessions' => $sessions->map(function ($session) use ($attendances) {
+                        $attendanceStatus = $attendances->where('sesi_id', $session->id)->first();
+                        return $attendanceStatus ? $attendanceStatus->status : 'Absen'; // Default to 'Absen' if no attendance found
+                    })
+                ];
+            }
+
+            return response()->json([
+                'sessions' => $sessions,
+                'attendance' => $attendance
+            ]);
+        } catch (\Exception $e) {
+            // Log the exception and return a proper error response
+            Log::error('Error fetching presence history: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
         }
-
-        return response()->json([
-            'sessions' => $sessions,
-            'attendance' => $attendance
-        ]);
     }
 }
