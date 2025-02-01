@@ -30,6 +30,23 @@
                 <x-nav-link :href="route('presences.index')" :active="request()->routeIs('presences.*')">
                     {{ __('Presensi') }}
                 </x-nav-link>
+                <x-dropdown-nav-link title="Presensi" :active="request()->routeIs('presences.*')">
+                    <div class="mb-2">
+                        <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            {{ __('Semua Presensi') }}
+                        </a>
+                    </div>
+                    <div class="mb-2">
+                        <a href="{{route('presences.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            {{ __('QR Presensi') }}
+                        </a>
+                    </div>
+                    <div class="mb-2">
+                        <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            {{ __('Presensi Manual') }}
+                        </a>
+                    </div>
+                </x-dropdown-nav-link>
                 <x-dropdown-nav-link title="Penilaian" :active="request()->routeIs('grades.*')">
                     <div class="mb-2">
                         <a href="{{route('grades.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
