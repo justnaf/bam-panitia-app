@@ -26,6 +26,7 @@
                         <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
+                                    <th class="px-4 py-2">#</th>
                                     <th class="px-4 py-2">Nama Mahasiswa</th>
                                     <template x-for="session in sessions" :key="session.id">
                                         <th class="px-4 py-2" x-text="session.name"></th>
@@ -33,16 +34,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="(student, studentId) in attendance" :key="studentId">
+                                <template x-for="(student, index) in attendance" :key="student.id ?? index">
                                     <tr class="border-b">
-                                        <td class="px-4 py-2" x-text="studenId"></td>
+                                        <!-- Kolom Nomor Urut -->
+                                        <td class="px-4 py-2" x-text="index + 1"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>
-                                        <template x-for="(status, index) in student.sessions" :key="index">
+                                        <template x-for="(status, sessionIndex) in student.sessions" :key="sessionIndex">
                                             <td class="px-4 py-2" x-text="status"></td>
                                         </template>
                                     </tr>
                                 </template>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -80,7 +83,6 @@
                             .then(data => {
                                 this.sessions = data.sessions; // Store sessions data
                                 this.attendance = data.attendance; // Store attendance data
-                                console.log(this.attendance);
 
                             })
                             .catch(error => console.error('Error fetching sessions:', error));
