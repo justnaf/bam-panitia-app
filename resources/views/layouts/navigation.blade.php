@@ -121,6 +121,11 @@
                 {{ __('Joined Management') }}
             </x-responsive-nav-link>
         </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('grades.index')" :active="request()->routeIs('grades.*')">
+                {{ __('Penilaian') }}
+            </x-responsive-nav-link>
+        </div>
         @else
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
