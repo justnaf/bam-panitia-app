@@ -27,9 +27,6 @@
                 <x-nav-link :href="route('modelActiveEvents.index')" :active="request()->routeIs('modelActiveEvents.*')">
                     {{ __('Invite Pengguna') }}
                 </x-nav-link>
-                <x-nav-link :href="route('presences.index')" :active="request()->routeIs('presences.*')">
-                    {{ __('Presensi') }}
-                </x-nav-link>
                 <x-dropdown-nav-link title="Presensi" :active="request()->routeIs('presences.*')">
                     <div class="mb-2">
                         <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">

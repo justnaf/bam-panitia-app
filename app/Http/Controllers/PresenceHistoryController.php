@@ -34,15 +34,17 @@ class PresenceHistoryController extends Controller
     public function presencesGetuser($event, $sesi, $qr)
     {
         $user = User::with('dataDiri')->where('code', $qr)->get();
+        $cekFirst = ModelActiveEvent::where('event_id', $event)->where('user_id', $user[0]->id())->first();
+        dd($cekFirst);
+        if ($cekFirst) {
+            return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('error', 'User Belum Bergabung Silahkan Lakukan Undang Terlebih Dahulu');
+        }
         return view('presences.show', compact(['event', 'sesi', 'user']));
     }
 
     public function presencesStore($event, $sesi, Request $request)
     {
-        $cekFirst = ModelActiveEvent::where('event_id', $event)->where('user_id', $request->user_id)->first();
-        if ($cekFirst) {
-            return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('error', 'User Belum Bergabung Silahkan Lakukan Undang Terlebih Dahulu');
-        }
+
         $cek = PresenceHistory::where('user_id', $request->user_id)->where('event_id', $event)->where('sesi_id', $sesi)->first();
         if ($cek == null) {
             $data = new PresenceHistory();
