@@ -75,7 +75,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(PresenceHistory::class);
     }
-    public function grade()
+    public function grades()
     {
         return $this->hasMany(Grade::class);
     }

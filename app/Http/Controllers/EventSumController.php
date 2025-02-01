@@ -214,7 +214,7 @@ class EventSumController extends Controller
 
     public function getTopParticipant($event_id)
     {
-        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'user.grade'])  // Make sure you are loading 'grades' correctly
+        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'user.grades'])  // Ensure grades relationship is correctly loaded
             ->where('event_id', $event_id)
             ->whereHas('user', function ($query) {
                 $query->whereHas('roles', function ($roleQuery) {
@@ -223,17 +223,21 @@ class EventSumController extends Controller
             })
             ->get()
             ->map(function ($peserta) {
-                $grades = $peserta->user->grades ?? collect();  // If grades are missing, use an empty collection
+                // Fetch grades for the user, or use an empty collection if none exist
+                $grades = $peserta->user->grades ?? collect();
                 $totalSesi = $grades->count();
 
+                // If no grades, set score to 0
                 if ($totalSesi == 0) {
                     $overall_score = 0;
                 } else {
+                    // Calculate total points from all grades (poin_1, poin_2, poin_3, poin_4)
                     $totalPoin = $grades->sum(function ($grade) {
-                        return $grade->poin_1 + $grade->poin_2 + $grade->poin_3 + $grade->poin_4;
+                        return ($grade->poin_1 + $grade->poin_2 + $grade->poin_3 + $grade->poin_4);
                     });
 
-                    $overall_score = $totalPoin / ($totalSesi * 4);
+                    // Calculate overall score as the total points divided by the maximum points possible
+                    $overall_score = $totalPoin / ($totalSesi * 4);  // Assuming each session has a max of 4 points
                 }
 
                 return [
