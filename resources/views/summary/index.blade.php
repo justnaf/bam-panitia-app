@@ -133,9 +133,7 @@
                                 this.gender = data.gender;
                                 this.org = data.org;
                                 this.paper = data.paper;
-                                this.readin = data.readIn;
-                                console.log("ReadIn Data:", data.readIn);
-                                console.log("ReadIn s Data:", this.readin);
+                                this.readin = data.readIn.original || {};
                                 this.createDoughnutChart();
                                 this.createOrgChart();
                                 this.createPaperChart();
