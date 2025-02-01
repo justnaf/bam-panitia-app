@@ -46,6 +46,9 @@
                         </a>
                     </div>
                 </x-dropdown-nav-link>
+                <x-nav-link :href="route('esummary.index')" :active="request()->routeIs('esummary.*')">
+                    {{ __('Summary Kegiatan') }}
+                </x-nav-link>
                 <x-dropdown-nav-link title="Data Kesehatan">
                     <div class="mb-2">
                         <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
@@ -84,6 +87,9 @@
                 </x-nav-link>
                 <x-nav-link class="justify-center" :href="route('grades.index')" :active="request()->routeIs('grades.*')">
                     <i class="fas fa-clipboard-check" title="Penilaian"></i>
+                </x-nav-link>
+                <x-nav-link class="justify-center" :href="route('esummary.index')" :active="request()->routeIs('esummary.*')">
+                    <i class="fas fa-chart-pie" title="Event Summary"></i>
                 </x-nav-link>
             </section>
         </div>

@@ -85,5 +85,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(DataDiri::class);
     }
+
+    public function EduHistories()
+    {
+        return $this->hasMany(EduHistories::class);
+    }
+
+    public function OrgHistories()
+    {
+        return $this->hasMany(OrgHistories::class);
+    }
+
+    public function OwnPaper()
+    {
+        return $this->hasMany(OwnPaper::class);
+    }
     // end Detail Of User
 }

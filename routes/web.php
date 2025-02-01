@@ -6,7 +6,6 @@ use App\Http\Controllers\EventSumController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ModelActiveEventController;
 use App\Http\Controllers\PresenceHistoryController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +19,7 @@ Route::get('/newmenu', function () {
 Route::get('/dashboard', [CoreController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::post('/dashboard', [CoreController::class, 'storeRequestRole'])->middleware('auth')->name('submission.role'); // Role Submission Route
 
+
 Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function () {
     Route::resource('events', EventController::class); // Events Management
     Route::resource('sesi', SesiController::class); // Sesi Management
@@ -30,6 +30,8 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
 
     /** Event Summary Route */
     Route::get('/eventSummary', [EventSumController::class, 'eventSummary'])->name('esummary.index');
+    Route::post('/eventSummary/getSummaryData', [EventSumController::class, 'getSummaryData'])->name('esummary.fetchData');
+    /** End Event Summary Route */
 
     /** Grade Route */
     Route::get('/grades', [GradeController::class, 'index'])->name('grades.index');
