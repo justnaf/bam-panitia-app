@@ -39,8 +39,24 @@
                                         <!-- Kolom Nomor Urut -->
                                         <td class="px-4 py-2" x-text="student.index"></td> <!-- Display the index -->
                                         <td class="px-4 py-2" x-text="student.name"></td>
-                                        <template x-for="(status, sessionIndex) in student.sessions" :key="sessionIndex">
-                                            <td class="px-4 py-2" x-text="status"></td>
+                                        <template x-for="(session, sessionIndex) in student.sessions" :key="session.session_id">
+                                            <td class="px-4 py-2 text-center cursor-pointer border" :class="{
+                                                    'bg-red-200': session.status === 'Tidak Hadir',
+                                                    'bg-green-200': session.status === 'Hadir',
+                                                    'bg-yellow-200': session.status === 'Telat',
+                                                    'bg-blue-200': session.status === 'Sakit',
+                                                    'bg-purple-200': session.status === 'Izin'
+                                                }">
+                                                <form :action="`/presences/update-presence-status`" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" :value="student.id">
+                                                    <input type="hidden" name="sesi_id" :value="session.session_id">
+                                                    <input type="hidden" name="event_id" :value="selectedEvent">
+                                                    <button type="submit" class="w-full h-full bg-transparent border-none cursor-pointer">
+                                                        <span x-text="session.status"></span>
+                                                    </button>
+                                                </form>
+                                            </td>
                                         </template>
                                     </tr>
                                 </template>
@@ -58,7 +74,8 @@
             return {
                 selectedEvent: initialEventId
                 , sessions: []
-                , attendance: {},
+                , attendance: {}
+                , message: '',
 
                 init() {
                     if (this.selectedEvent) {

@@ -44,6 +44,7 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
 
     /** Presence Route */
     Route::post('/get-presences-history', [PresenceHistoryController::class, 'getPresencesHistory'])->name('presences.gethistory');
+    Route::post('/presences/update-presence-status', [PresenceHistoryController::class, 'updateStatus'])->name('presences.updateStatus');
     Route::get('/presences/list', [PresenceHistoryController::class, 'listView'])->name('presences.listview');
     Route::get('/presences', [PresenceHistoryController::class, 'presencesIndex'])->name('presences.index');
     Route::get('/presences/{event}/{sesi}', [PresenceHistoryController::class, 'presencesScanner'])->name('presences.scanner');

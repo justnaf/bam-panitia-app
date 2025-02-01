@@ -38,11 +38,6 @@
                             {{ __('QR Presensi') }}
                         </a>
                     </div>
-                    <div class="mb-2">
-                        <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
-                            {{ __('Presensi Manual') }}
-                        </a>
-                    </div>
                 </x-dropdown-nav-link>
                 <x-dropdown-nav-link title="Penilaian" :active="request()->routeIs('grades.*')">
                     <div class="mb-2">

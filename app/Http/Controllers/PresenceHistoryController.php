@@ -64,7 +64,7 @@ class PresenceHistoryController extends Controller
             $data->status = 'Hadir';
             $data->save();
             if ($data->wasRecentlyCreated) {
-                return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('success', 'Berhasil Presesni');
+                return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('success', 'Berhasil Presensi');
             }
             return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('error', 'User Gagal Presensi');
         }
@@ -106,11 +106,15 @@ class PresenceHistoryController extends Controller
 
             $attendance[$user->id] = [
                 'index' => $counter++,  // Add an index
+                'id' => $user->id,
                 'name' => $user->dataDiri ? $user->dataDiri->name : 'No name available',
                 'sessions' => $sessions->map(function ($session) use ($attendances) {
                     $attendanceStatus = $attendances->get($session->id);
-                    return $attendanceStatus ? $attendanceStatus->status : 'Belum Absen';
-                })
+                    return [
+                        'session_id' => $session->id,  // Tambahkan session_id
+                        'status' => $attendanceStatus ? $attendanceStatus->status : 'Belum Absen'
+                    ];
+                })->toArray()
             ];
         }
 
@@ -118,5 +122,38 @@ class PresenceHistoryController extends Controller
             'sessions' => $sessions,
             'attendance' => $attendance
         ]);
+    }
+    public function updateStatus(Request $request)
+    {
+        $statuses = ['Tidak Hadir', 'Hadir', 'Telat', 'Sakit', 'Izin'];
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'event_id' => 'required|exists:events,id',
+            'sesi_id' => 'required|exists:sesis,id',
+        ]);
+        $cekFirst = PresenceHistory::where('user_id', $request->user_id)->where('event_id', $request->event_id)->where('sesi_id', $request->sesi_id)->first();
+
+        if (!$cekFirst) {
+            $presence = new PresenceHistory();
+            $presence->event_id = $request->event_id;
+            $presence->user_id = $request->user_id;
+            $presence->sesi_id = $request->sesi_id;
+            $presence->status = 'Tidak Hadir';
+            $presence->save();
+            if ($presence->wasRecentlyCreated) {
+                return redirect()->route('presences.listview')->with('success', 'Berhasil Update Presensi');
+            }
+        } else {
+            $currentStatus = $cekFirst->status;
+
+            $currentStatusIndex = array_search($currentStatus, $statuses);
+
+            if ($currentStatusIndex !== false) {
+                $nextStatus = $statuses[($currentStatusIndex + 1) % count($statuses)];
+
+                $cekFirst->update(['status' => $nextStatus]);
+            }
+        }
+        return redirect()->route('presences.listview')->with('error', 'Gagal Update Presensi');
     }
 }
