@@ -214,7 +214,7 @@ class EventSumController extends Controller
 
     public function getTopParticipant($event_id)
     {
-        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'grades'])
+        $dataPeserta = ModelActiveEvent::with(['user.dataDiri', 'user.grades'])
             ->where('event_id', $event_id)
             ->whereHas('user', function ($query) {
                 $query->whereHas('roles', function ($roleQuery) {
@@ -223,7 +223,7 @@ class EventSumController extends Controller
             })
             ->get()
             ->map(function ($peserta) {
-                $grades = $peserta->grades;
+                $grades = $peserta->user->grades; // Use 'user' relationship to access grades
                 $totalSesi = $grades->count();
 
                 if ($totalSesi == 0) {
@@ -236,12 +236,12 @@ class EventSumController extends Controller
                     $overall_score = $totalPoin / ($totalSesi * 4);
                 }
 
-                return response()->json([
+                return [
                     'name' => $peserta->user->dataDiri->name ?? 'Unknown',
                     'npm' => $peserta->user->username,
                     'gender' => $peserta->user->dataDiri->gender ?? 'Unknown',
                     'overall_score' => $overall_score,
-                ]);
+                ];
             });
 
         $topMale = $dataPeserta->where('gender', 'Laki-laki')->sortByDesc('overall_score')->take(5)->values();
