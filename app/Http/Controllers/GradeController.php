@@ -128,26 +128,7 @@ class GradeController extends Controller
 
     public function update($userId, $eventId, Grade $gradeId, Request $request)
     {
-        dd($gradeId);
-        // Find user by code
-        $user = User::where('code', $userId)->first();
-
-        // Handle case where user is not found
-        if (!$user) {
-            return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))
-                ->with('error', 'User not found');
-        }
-        // Find the grade record
-        $data = Grade::where('sesi_id', $gradeId)
-            ->where('event_id', $eventId)
-            ->where('user_id', $user->id)
-            ->first(); // Use first() instead of get()
-
-        // Handle case where grade is not found
-        if (!$data) {
-            return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))
-                ->with('error', 'Grade record not found');
-        }
+        $data = $gradeId;
         $data->poin_1 = $request->poin_1;
         $data->poin_2 = $request->poin_2;
         $data->poin_3 = $request->poin_3;
