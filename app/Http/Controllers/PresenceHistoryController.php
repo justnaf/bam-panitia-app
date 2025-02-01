@@ -6,11 +6,24 @@ use App\Models\Event;
 use App\Models\PresenceHistory;
 use Illuminate\Http\Request;
 use App\Models\ModelActiveEvent;
+use App\Models\Sesi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class PresenceHistoryController extends Controller
 {
+    public function listView()
+    {
+        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->pluck('event_id');
+        if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
+            $events = Event::all();
+        } else {
+            $events = Event::whereIn('id', $modelActiveEvent)->get();
+        }
+
+        return view('presences.list.index', compact('events'));
+    }
+
     public function presencesIndex()
     {
         $activeEvents = ModelActiveEvent::where('user_id', Auth::id())
@@ -55,5 +68,37 @@ class PresenceHistoryController extends Controller
             return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('error', 'User Gagal Presensi');
         }
         return redirect()->route('presences.scanner', compact('event', 'sesi'))->with('error', 'User Sudah Presensi');
+    }
+
+    public function getPresencesHistory(Request $request)
+    {
+        $eventId = $request->event_id;
+
+        // Fetch all sessions for the given event
+        $sessions = Sesi::where('event_id', $eventId)->where('grade', 1)->get();
+
+        // Fetch all users and their attendance for the event and group by user_id
+        $attendanceData = PresenceHistory::with('user', 'sesi')
+            ->where('event_id', $eventId)
+            ->get()
+            ->groupBy('user_id'); // Group by user_id
+
+        // Structure the data for frontend display
+        $attendance = [];
+        foreach ($attendanceData as $userId => $attendances) {
+            $user = $attendances->first()->user; // Get the user data (assuming it's the same for all sessions)
+            $attendance[$user->id] = [
+                'name' => $user->name,
+                'sessions' => $sessions->map(function ($session) use ($attendances) {
+                    $attendanceStatus = $attendances->where('sesi_id', $session->id)->first();
+                    return $attendanceStatus ? $attendanceStatus->status : 'Absen'; // Default to 'Absen' if no attendance found
+                })
+            ];
+        }
+
+        return response()->json([
+            'sessions' => $sessions,
+            'attendance' => $attendance
+        ]);
     }
 }

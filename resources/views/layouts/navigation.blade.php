@@ -29,7 +29,7 @@
                 </x-nav-link>
                 <x-dropdown-nav-link title="Presensi" :active="request()->routeIs('presences.*')">
                     <div class="mb-2">
-                        <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                        <a href="{{route('presences.listview')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
                             {{ __('Semua Presensi') }}
                         </a>
                     </div>
@@ -84,7 +84,7 @@
                 <x-nav-link class="justify-center" :href="route('modelActiveEvents.index')" :active="request()->routeIs('modelActiveEvents.*')">
                     <i class="fas fa-user-plus" title="Invite Pengguna"></i>
                 </x-nav-link>
-                <x-nav-link class="justify-center" :href="route('presences.index')" :active="request()->routeIs('presences.*')">
+                <x-nav-link class="justify-center" :href="route('presences.listview')" :active="request()->routeIs('presences.*')">
                     <i class="fas fa-qrcode" title="Presensi"></i>
                 </x-nav-link>
                 <x-nav-link class="justify-center" :href="route('grades.index')" :active="request()->routeIs('grades.*')">

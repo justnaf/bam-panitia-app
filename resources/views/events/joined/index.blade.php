@@ -8,8 +8,17 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @include('includes.taost')
-
             <div class="mx-auto" x-data="eventHandler({{ $events->first()->id ?? 'null' }})" x-init="init()">
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <template x-for="(count, role) in roleCounts" :key="role">
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <div class="p-2">
+                                <h1 class="text-lg font-bold" x-text="role"></h1>
+                                <p class="text-lg" x-text="count"></p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
                 <div class="mb-5">
                     <label for="eventSelect" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Kegiatan</label>
                     <select id="eventSelect" @change="fetchSessions()" x-model="selectedEvent" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
@@ -76,7 +85,8 @@
         function eventHandler(initialEventId) {
             return {
                 selectedEvent: initialEventId
-                , sessions: [],
+                , sessions: []
+                , roleCounts: '',
 
                 init() {
                     if (this.selectedEvent) {
@@ -99,15 +109,17 @@
                             })
                             .then(response => response.json())
                             .then(data => {
-                                this.sessions = data; // Simpan data langsung ke sessions
-                                console.log(this.sessions);
-
+                                // Store the role counts and session data
+                                this.roleCounts = data.roleCounts;
+                                this.sessions = data.modelActiveEvent;
                             })
                             .catch(error => console.error('Error fetching sessions:', error));
                     } else {
-                        this.sessions = []; // Reset data jika tidak ada event yang dipilih
+                        this.sessions = []; // Reset data if no event is selected
+                        this.roleCounts = {}; // Reset role counts
                     }
                 }
+
             , };
         }
 

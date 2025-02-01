@@ -43,6 +43,8 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     /** End Grade Route */
 
     /** Presence Route */
+    Route::post('/get-presences-history', [PresenceHistoryController::class, 'getPresencesHistory'])->name('presences.gethistory');
+    Route::get('/presences/list', [PresenceHistoryController::class, 'listView'])->name('presences.listview');
     Route::get('/presences', [PresenceHistoryController::class, 'presencesIndex'])->name('presences.index');
     Route::get('/presences/{event}/{sesi}', [PresenceHistoryController::class, 'presencesScanner'])->name('presences.scanner');
     Route::get('/presences/{event}/{sesi}/{qr}', [PresenceHistoryController::class, 'presencesGetuser'])->name('presences.getuser');

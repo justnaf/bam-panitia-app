@@ -95,12 +95,31 @@ class ModelActiveEventController extends Controller
 
     public function fetchUserJoined(Request $request)
     {
+        // Get the event ID from the request
         $eventId = $request->input('event_id');
+
+        // Count users by role, specifically for the selected event
+        $roleCounts = ModelActiveEvent::where('event_id', $eventId)
+            ->with('user.roles') // Make sure to load roles for each user
+            ->get()
+            ->flatMap(function ($modelActiveEvent) {
+                // For each ModelActiveEvent, return the roles of the associated user
+                return $modelActiveEvent->user->roles;
+            })
+            ->groupBy('name') // Group by role name
+            ->map(function ($roles) {
+                return $roles->count(); // Count the number of users for each role
+            });
+
+        // Fetch the event participants
         $modelActiveEvent = ModelActiveEvent::where('event_id', $eventId)
             ->with(['user.dataDiri', 'user.roles', 'event'])
             ->get();
 
-
-        return response()->json($modelActiveEvent);
+        // Return both the role counts and event data
+        return response()->json([
+            'roleCounts' => $roleCounts,
+            'modelActiveEvent' => $modelActiveEvent,
+        ]);
     }
 }
