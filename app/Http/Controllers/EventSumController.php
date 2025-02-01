@@ -56,7 +56,11 @@ class EventSumController extends Controller
 
     public function getOrg($event_id)
     {
-        $dataPeserta = ModelActiveEvent::with('user.orgHistories')->where('event_id', $event_id)->get();
+        $dataPeserta = ModelActiveEvent::with('user.orgHistories')->where('event_id', $event_id)->whereHas('user', function ($query) {
+            $query->whereHas('roles', function ($roleQuery) {
+                $roleQuery->where('name', 'Peserta');
+            });
+        })->get();
 
         // Initialize counters
         $orgCount1 = 0;
@@ -115,7 +119,11 @@ class EventSumController extends Controller
 
     public function getOwnPaper($event_id)
     {
-        $dataPeserta = ModelActiveEvent::with('user.OwnPaper')->where('event_id', $event_id)->get();
+        $dataPeserta = ModelActiveEvent::with('user.OwnPaper')->where('event_id', $event_id)->whereHas('user', function ($query) {
+            $query->whereHas('roles', function ($roleQuery) {
+                $roleQuery->where('name', 'Peserta');
+            });
+        })->get();
         // Initialize counters
         $paperCount1 = 0;
         $paperCount2 = 0;
@@ -192,7 +200,11 @@ class EventSumController extends Controller
 
         // Fetch participants with their Read Interests
         $dataPeserta = ModelActiveEvent::with('user.ReadInterest')
-            ->where('event_id', $event_id)
+            ->where('event_id', $event_id)->whereHas('user', function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'Peserta');
+                });
+            })
             ->get();
 
         // Loop through participants and count read interests per category
