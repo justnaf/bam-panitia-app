@@ -134,6 +134,8 @@
                                 this.org = data.org;
                                 this.paper = data.paper;
                                 this.readin = data.readIn;
+                                console.log("ReadIn Data:", data.readIn);
+                                console.log("ReadIn s Data:", this.readin);
                                 this.createDoughnutChart();
                                 this.createOrgChart();
                                 this.createPaperChart();
