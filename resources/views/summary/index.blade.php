@@ -139,7 +139,7 @@
                 <!-- Table Best Perempuan -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-3 text-gray-900 overflow-x-auto">
-                        <h1 class="text-center font-bold text-lg">Tabel Peserta Teraik Perempuan</h1>
+                        <h1 class="text-center font-bold text-lg">Tabel Peserta Terbaik Perempuan</h1>
                         <template x-if="!selectedEvent">
                             <p class="text-center">Silahkan Pilih Kegiatan</p>
                         </template>
