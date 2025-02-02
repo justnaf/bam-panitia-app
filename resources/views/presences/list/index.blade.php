@@ -22,7 +22,7 @@
                     <x-input-error :messages="$errors->get('event_id')" class="mt-2" />
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
-                    <div class="p-6 text-gray-900">
+                    <div class="p-6 text-gray-900 overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
@@ -39,7 +39,7 @@
                                     <tr class="border-b">
                                         <!-- Kolom Nomor Urut -->
                                         <td class="px-4 py-2" x-text="student.index"></td> <!-- Display the index -->
-                                        <td class="px-4 py-2" x-text="student.username"></td>
+                                        <td class="px-4 py-2" x-text="student.npm"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>
                                         <template x-for="(session, sessionIndex) in student.sessions" :key="session.session_id">
                                             <td class="px-4 py-2 text-center cursor-pointer border" :class="{
