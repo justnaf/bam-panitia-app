@@ -45,9 +45,9 @@
                                             <td class="px-4 py-2 text-center cursor-pointer border" :class="{
                                                     'bg-red-500 text-white': session.status === 'Tidak Hadir',
                                                     'bg-emerald-600 text-white': session.status === 'Hadir',
-                                                    'bg-yellow-500 text-gray-400': session.status === 'Telat',
-                                                    'bg-blue-500 text-gray-300': session.status === 'Sakit',
-                                                    'bg-orange-500 text-gray-100': session.status === 'Izin'
+                                                    'bg-yellow-500 text-white': session.status === 'Telat',
+                                                    'bg-blue-500 text-white': session.status === 'Sakit',
+                                                    'bg-orange-500 text-white': session.status === 'Izin'
                                                 }">
                                                 <form :action="`/presences/update-presence-status`" method="POST">
                                                     @csrf
