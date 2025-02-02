@@ -27,6 +27,7 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                 <tr>
                                     <th class="px-4 py-2">#</th>
+                                    <th class="px-4 py-2">NPM</th>
                                     <th class="px-4 py-2">Nama Mahasiswa</th>
                                     <template x-for="session in sessions" :key="session.id">
                                         <th class="px-4 py-2" x-text="session.name"></th>
@@ -38,14 +39,15 @@
                                     <tr class="border-b">
                                         <!-- Kolom Nomor Urut -->
                                         <td class="px-4 py-2" x-text="student.index"></td> <!-- Display the index -->
+                                        <td class="px-4 py-2" x-text="student.username"></td>
                                         <td class="px-4 py-2" x-text="student.name"></td>
                                         <template x-for="(session, sessionIndex) in student.sessions" :key="session.session_id">
                                             <td class="px-4 py-2 text-center cursor-pointer border" :class="{
-                                                    'bg-red-200': session.status === 'Tidak Hadir',
-                                                    'bg-green-200': session.status === 'Hadir',
-                                                    'bg-yellow-200': session.status === 'Telat',
-                                                    'bg-blue-200': session.status === 'Sakit',
-                                                    'bg-purple-200': session.status === 'Izin'
+                                                    'bg-red-500 text-white': session.status === 'Tidak Hadir',
+                                                    'bg-emerald-600 text-white': session.status === 'Hadir',
+                                                    'bg-yellow-500 text-gray-400': session.status === 'Telat',
+                                                    'bg-blue-500 text-gray-300': session.status === 'Sakit',
+                                                    'bg-orange-500 text-gray-100': session.status === 'Izin'
                                                 }">
                                                 <form :action="`/presences/update-presence-status`" method="POST">
                                                     @csrf

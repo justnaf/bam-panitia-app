@@ -107,6 +107,7 @@ class PresenceHistoryController extends Controller
             $attendance[$user->id] = [
                 'index' => $counter++,  // Add an index
                 'id' => $user->id,
+                'npm' => $user->username,
                 'name' => $user->dataDiri ? $user->dataDiri->name : 'No name available',
                 'sessions' => $sessions->map(function ($session) use ($attendances) {
                     $attendanceStatus = $attendances->get($session->id);
