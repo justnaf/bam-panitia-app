@@ -45,7 +45,7 @@ class CoreController extends Controller
         // Ambil semua user yang terkait dengan event tertentu
         $users = User::whereHas('modelActiveEvent', function ($query) use ($request) {
             $query->where('event_id', $request->event_id);
-        })->with(['diseases', 'dataDiri'])->get();
+        })->whereHas('diseases')->with(['diseases', 'dataDiri'])->get();
 
         // Format response JSON
         return response()->json([
@@ -57,7 +57,7 @@ class CoreController extends Controller
         // Ambil semua user yang terkait dengan event tertentu
         $users = User::whereHas('modelActiveEvent', function ($query) use ($request) {
             $query->where('event_id', $request->event_id);
-        })->with(['alergics', 'dataDiri'])->get();
+        })->whereHas('alergics')->with(['alergics', 'dataDiri'])->get();
 
         // Format response JSON
         return response()->json([
