@@ -18,6 +18,54 @@ class CoreController extends Controller
         return view('dashboard', compact('submission'));
     }
 
+    public function diseases()
+    {
+        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->pluck('event_id');
+        if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
+            $events = Event::all();
+        } else {
+            $events = Event::whereIn('id', $modelActiveEvent)->where('status', '!=', 'done')->get();
+        }
+        return view('kesehatan.disease', compact('events'));
+    }
+
+    public function alergics()
+    {
+        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->pluck('event_id');
+        if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
+            $events = Event::all();
+        } else {
+            $events = Event::whereIn('id', $modelActiveEvent)->where('status', '!=', 'done')->get();
+        }
+        return view('kesehatan.alergic', compact('events'));
+    }
+
+    public function getDiseases(Request $request)
+    {
+        // Ambil semua user yang terkait dengan event tertentu
+        $users = User::whereHas('modelActiveEvent', function ($query) use ($request) {
+            $query->where('event_id', $request->event_id);
+        })->with(['diseases', 'dataDiri'])->get();
+
+        // Format response JSON
+        return response()->json([
+            'users' => $users
+        ]);
+    }
+    public function getAlergic(Request $request)
+    {
+        // Ambil semua user yang terkait dengan event tertentu
+        $users = User::whereHas('modelActiveEvent', function ($query) use ($request) {
+            $query->where('event_id', $request->event_id);
+        })->with(['alergics', 'dataDiri'])->get();
+
+        // Format response JSON
+        return response()->json([
+            'users' => $users
+        ]);
+    }
+
+
     public function storeRequestRole(Request $request)
     {
         $submission = new ModelRequestRole();

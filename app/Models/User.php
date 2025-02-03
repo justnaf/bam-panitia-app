@@ -80,30 +80,45 @@ class User extends Authenticatable
         return $this->hasMany(Grade::class);
     }
 
+    public function modelHasRestroom()
+    {
+        return $this->hasMany(ModelHasRestroom::class);
+    }
+
     // Detail Of User
     public function dataDiri()
     {
         return $this->hasOne(DataDiri::class);
     }
 
-    public function EduHistories()
+    public function eduHist()
     {
         return $this->hasMany(EduHistories::class);
     }
-
-    public function OrgHistories()
+    public function orgHist()
     {
         return $this->hasMany(OrgHistories::class);
     }
 
-    public function OwnPaper()
+    public function ownPaper()
     {
         return $this->hasMany(OwnPaper::class);
     }
 
-    public function ReadInterest()
+    public function readInterest()
     {
         return $this->hasMany(ReadInterest::class);
     }
+
+    public function alergics()
+    {
+        return $this->hasMany(Alergic::class);
+    }
+
+    public function diseases()
+    {
+        return $this->hasMany(Disease::class);
+    }
+
     // end Detail Of User
 }

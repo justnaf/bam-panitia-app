@@ -28,6 +28,14 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
 
     Route::get('/cnsession-status/{sesi}', [SesiController::class, 'changeSessionStatus'])->name('cnsession.status'); // Ganti Status Sesi
 
+    /** Health Route */
+    Route::get('/health/disease', [CoreController::class, 'diseases'])->name('health.diseases');
+    Route::post('/health/disease', [CoreController::class, 'getDiseases'])->name('health.getDiseases');
+    Route::get('/health/alergic', [CoreController::class, 'alergics'])->name('health.alergic');
+    Route::post('/health/alergic', [CoreController::class, 'getAlergic'])->name('health.getAlergic');
+    /** End Health Route */
+
+
     /** Event Summary Route */
     Route::get('/eventSummary', [EventSumController::class, 'eventSummary'])->name('esummary.index');
     Route::post('/eventSummary/getSummaryData', [EventSumController::class, 'getSummaryData'])->name('esummary.fetchData');

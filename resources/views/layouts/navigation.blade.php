@@ -51,13 +51,13 @@
                 </x-nav-link>
                 <x-dropdown-nav-link title="Data Kesehatan">
                     <div class="mb-2">
-                        <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
-                            Dropdown Menu 1
+                        <a href="{{route('health.alergic')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            Alergi
                         </a>
                     </div>
                     <div class="mb-2">
-                        <a href="#" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
-                            Dropdown Menu 2
+                        <a href="{{route('health.diseases')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            Riwayat Penyakit
                         </a>
                     </div>
                 </x-dropdown-nav-link>

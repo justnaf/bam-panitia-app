@@ -48,4 +48,13 @@ class Event extends Model
     {
         return $this->hasMany(PresenceHistory::class);
     }
+
+    public function restRoom()
+    {
+        return $this->hasMany(RestRoom::class);
+    }
+    public function modelHasRestroom()
+    {
+        return $this->hasMany(ModelHasRestroom::class);
+    }
 }
