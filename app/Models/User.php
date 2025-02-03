@@ -109,6 +109,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReadInterest::class);
     }
+    public function orgHistories()
+    {
+        return $this->hasMany(OrgHistories::class);
+    }
 
     public function alergics()
     {
