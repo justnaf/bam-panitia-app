@@ -41,6 +41,9 @@
                                             <td class="p-3" x-text="user.data_diri.name"></td>
                                             <td class="p-3">
                                                 <template x-for="disease in user.diseases">
+                                                    <template x-if="disease.common == 'etc'">
+                                                        <p x-text="disease.etc"></p>
+                                                    </template>
                                                     <p x-text="disease.common"></p>
                                                 </template>
                                             </td>
