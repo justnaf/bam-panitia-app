@@ -44,7 +44,9 @@
                                                     <template x-if="disease.common == 'etc'">
                                                         <p x-text="disease.etc"></p>
                                                     </template>
-                                                    <p x-text="disease.common"></p>
+                                                    <template x-if="!disease.common == 'etc'">
+                                                        <p x-text="disease.common"></p>
+                                                    </template>
                                                 </template>
                                             </td>
                                         </tr>
