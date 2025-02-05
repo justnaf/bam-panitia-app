@@ -39,6 +39,18 @@
                         </a>
                     </div>
                 </x-dropdown-nav-link>
+                <x-dropdown-nav-link title="Data Kamar" :active="request()->routeIs('restroom.*')">
+                    <div class="mb-2">
+                        <a href="{{route('restroom.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            {{ __('Data Kamar') }}
+                        </a>
+                    </div>
+                    <div class="mb-2">
+                        <a href="{{route('restroom.indexDistri')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            {{ __('Data Peserta & Kamar') }}
+                        </a>
+                    </div>
+                </x-dropdown-nav-link>
                 <x-dropdown-nav-link title="Penilaian" :active="request()->routeIs('grades.*')">
                     <div class="mb-2">
                         <a href="{{route('grades.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
@@ -49,7 +61,7 @@
                 <x-nav-link :href="route('esummary.index')" :active="request()->routeIs('esummary.*')">
                     {{ __('Summary Kegiatan') }}
                 </x-nav-link>
-                <x-dropdown-nav-link title="Data Kesehatan">
+                <x-dropdown-nav-link title="Data Kesehatan" :active="request()->routeIs('health.*')">
                     <div class="mb-2">
                         <a href="{{route('health.alergic')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
                             Alergi
@@ -81,6 +93,9 @@
                 </x-nav-link>
                 <x-nav-link class="justify-center" :href="route('modelActiveEvents.index')" :active="request()->routeIs('modelActiveEvents.*')">
                     <i class="fas fa-user-plus" title="Invite Pengguna"></i>
+                </x-nav-link>
+                <x-nav-link class="justify-center" :href="route('restroom.index')" :active="request()->routeIs('restroom.*')">
+                    <i class="fas fa-building" title="Data Kamar"></i>
                 </x-nav-link>
                 <x-nav-link class="justify-center" :href="route('presences.listview')" :active="request()->routeIs('presences.*')">
                     <i class="fas fa-qrcode" title="Presensi"></i>

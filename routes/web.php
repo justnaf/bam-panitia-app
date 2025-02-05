@@ -6,6 +6,7 @@ use App\Http\Controllers\EventSumController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ModelActiveEventController;
 use App\Http\Controllers\PresenceHistoryController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,24 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     Route::post('/health/alergic', [CoreController::class, 'getAlergic'])->name('health.getAlergic');
     /** End Health Route */
 
+    /** Restroom Route */
+    Route::get('/restroom-distribute/randomize', [RoomController::class, 'randomizeRoom'])->name('restroom.randomizeDistri');
+    Route::get('/restroom-distribute', [RoomController::class, 'indexDistribute'])->name('restroom.indexDistri');
+    Route::delete('/restroom-distribute/{roomId}/{modelHasRoom}', [RoomController::class, 'deleteModelHasRoom'])->name('restroom.deleteDistri');
+    Route::post('/restroom-distribute/store', [RoomController::class, 'storeDistribute'])->name('restroom.storeDistri');
+    Route::post('/restroom-distribute', [RoomController::class, 'getDistribute'])->name('restroom.getDistri');
+    Route::post('/restroom-distribute/get-join', [RoomController::class, 'getJoin'])->name('restroom.getJoin');
+    Route::post('/restroom-distribute/get-unjoin', [RoomController::class, 'getUnjoin'])->name('restroom.getUnjoin');
+    Route::get('/restroom-distribute/{roomId}/edit', [RoomController::class, 'editDistribute'])->name('restroom.editDistri');
+    Route::get('/restroom', [RoomController::class, 'index'])->name('restroom.index');
+    Route::post('/restroom', [RoomController::class, 'getRooms'])->name('restroom.getRooms');
+    Route::delete('/restroom/{roomId}', [RoomController::class, 'deleteRooms'])->name('restroom.delete');
+    Route::get('/restroom/create', [RoomController::class, 'create'])->name('restroom.create');
+    Route::get('/restroom/{roomId}/edit', [RoomController::class, 'editRooms'])->name('restroom.edit');
+    Route::put('/restroom/{roomId}', [RoomController::class, 'updateRooms'])->name('restroom.update');
+    Route::post('/restroom/create', [RoomController::class, 'store'])->name('restroom.store');
+    /** End Restroom Route */
+
 
     /** Event Summary Route */
     Route::get('/eventSummary', [EventSumController::class, 'eventSummary'])->name('esummary.index');
@@ -49,7 +68,6 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     Route::get('/grades/{userId}/{eventId}/edit', [GradeController::class, 'getSesi'])->name('grades.getsesi');
     Route::put('/grades/{userId}/{eventId}/{gradeId}', [GradeController::class, 'update'])->name('grades.update');
     Route::get('/grades/{userId}/{eventId}/{sesiId}/edit', [GradeController::class, 'gradeEdit'])->name('grades.edit');
-
     /** End Grade Route */
 
     /** Presence Route */
