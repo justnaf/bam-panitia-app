@@ -201,15 +201,17 @@ class RoomController extends Controller
             return redirect()->route('restroom.indexDistri')->with('warning', 'Semua peserta sudah memiliki kamar.');
         }
 
-        // Acak daftar peserta
         $dataPeserta = $dataPeserta->shuffle();
 
         foreach ($dataPeserta as $peserta) {
-            // Pilih kamar yang sesuai dengan gender peserta
-            $matchingRooms = $restRooms->where('gender', $peserta->user->dataDiri->gender);
+            // Pilih kamar yang sesuai dengan gender peserta dan masih memiliki kapasitas
+            $matchingRooms = $restRooms->filter(function ($room) use ($peserta) {
+                $currentOccupants = ModelHasRestroom::where('rest_room_id', $room->id)->count();
+                return $room->gender === $peserta->user->dataDiri->gender && $currentOccupants < $room->capacity;
+            });
 
             if ($matchingRooms->isEmpty()) {
-                continue; // Lewati jika tidak ada kamar yang sesuai dengan gender peserta
+                continue; // Lewati jika tidak ada kamar yang sesuai dengan gender dan kapasitas peserta
             }
 
             $randomRoom = $matchingRooms->random(); // Pilih kamar secara acak dari yang sesuai
@@ -221,6 +223,7 @@ class RoomController extends Controller
                 'event_id' => $eventId
             ]);
         }
+
         return redirect()->route('restroom.indexDistri')->with('success', 'Peserta berhasil diacak ke kamar yang sesuai dengan gender.');
     }
 }
