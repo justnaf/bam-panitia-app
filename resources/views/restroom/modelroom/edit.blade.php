@@ -129,6 +129,7 @@
                 , joins: [],
 
                 init() {
+                    console.log(this.roomId);
                     if (this.selectedEvent) {
                         this.fetchUnjoin();
                         this.fetchJoin();
