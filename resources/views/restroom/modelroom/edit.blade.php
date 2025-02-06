@@ -72,7 +72,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mb-3" x-data="eventHandler({{ $roomId->first()->event_id ?? 'null'}}, '{{ $roomId->first()->gender ?? 'null'}}', '{{ $roomId->first()->rest_room_id ?? 'null'}}')">
+                    @php
+                    dd($roomId);
+                    @endphp
+                    <div class="mb-3" x-data="eventHandler({{ $roomId->first()->event_id ?? 'null'}}, '{{ $roomId->first()->gender ?? 'null'}}', '{{ $roomId->first()->id ?? 'null'}}')">
                         <h1 class="text-center font-extrabold text-lg mb-2">Peserta Yang Belum Dapat Kamar</h1>
                         <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
