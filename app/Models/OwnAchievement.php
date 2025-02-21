@@ -4,22 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ModelHistoryEvent extends Model
+class OwnAchievement extends Model
 {
     protected $fillable = [
         'user_id',
-        'event_id',
-        'status',
-        'desc',
-        'joined_as'
+        'name',
+        'achieve_year',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    public function event()
-    {
-        return $this->belongsTo(Event::class, 'event_id');
     }
 }

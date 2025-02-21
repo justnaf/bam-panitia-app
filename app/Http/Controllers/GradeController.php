@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Grade;
 use App\Models\ModelActiveEvent;
+use App\Models\ModelHistoryEvent;
 use App\Models\Sesi;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -137,5 +138,72 @@ class GradeController extends Controller
             return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))->with('success', 'Penilaian Berhasil Di Update');
         }
         return redirect()->route('grades.getsesi', compact(['userId', 'eventId']))->with('success', 'Penilaian Gagal Di Update');
+    }
+
+    public function indexGraduate()
+    {
+        $modelActiveEvent = ModelActiveEvent::where('user_id', Auth::id())->pluck('event_id');
+        if (Auth::user()->roles->pluck('name')[0] == 'SuperAdmin') {
+            $events = Event::all();
+        } else {
+            $events = Event::whereIn('id', $modelActiveEvent)->where('status', '!=', 'done')->get();
+        }
+
+        return view('graduate.index', compact('events'));
+    }
+
+    public function fetchGraduateData(Request $request)
+    {
+        $modeHistEvent = ModelHistoryEvent::where('event_id', $request->event_id)->with(['user.dataDiri', 'event'])->get();
+        return response()->json([
+            'history' => $modeHistEvent
+        ]);
+    }
+
+    public function genereteAllGraduate($eventId)
+    {
+        $modelActiveEvents = ModelActiveEvent::where('event_id', $eventId)->with('event')->get();
+        $eventName = Event::find($eventId)->name;
+
+        $allExisting = true;
+
+        foreach ($modelActiveEvents as $activeEvent) {
+            $existingGraduate = ModelHistoryEvent::where('user_id', $activeEvent->user_id)
+                ->where('event_id', $activeEvent->event_id)
+                ->first();
+
+            if (!$existingGraduate) {
+                $allExisting = false;
+                $graduate = new ModelHistoryEvent();
+                $graduate->user_id = $activeEvent->user_id;
+                $graduate->event_id = $activeEvent->event_id;
+                $graduate->joined_as = $activeEvent->status;
+                $graduate->status = 'Lulus';
+                $graduate->desc = 'Tanpa Catatan';
+                $graduate->save();
+            }
+        }
+        if ($allExisting) {
+            return redirect()->route('grades.graduate.index')
+                ->with('info', 'Semua pengguna dalam kegiatan ' . $eventName . ' sudah memiliki status kelulusan.');
+        }
+        return redirect()->route('grades.graduate.index')
+            ->with('success', 'Sukses Memberikan Status Kelulusan Untuk Kegiatan ' . $eventName);
+    }
+
+    public function editGraduateData(ModelHistoryEvent $graduateId)
+    {
+        $graduate = $graduateId;
+        return view('graduate.edit', compact('graduate'));
+    }
+
+    public function updateGraduateData(ModelHistoryEvent $graduateId, Request $request)
+    {
+        $graduateId->status = $request->status;
+        $graduateId->desc = $request->desc;
+        if ($graduateId->save()) {
+            return redirect()->route('grades.graduate.index')->with('success', 'Data Kelulusan Berhasil Dirubah');
+        }
+        return redirect()->route('grades.graduate.index')->with('error', 'Data Kelulusan Gagal Dirubah');
     }
 }

@@ -70,7 +70,7 @@ class CoreController extends Controller
     {
         $submission = new ModelRequestRole();
         $submission->user_id = Auth::id();
-        $submission->requested_role = 'Admin';
+        $submission->requested_role = $request->role;
         $submission->reason = $request->reason;
         $submission->save();
 

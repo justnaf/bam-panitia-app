@@ -85,6 +85,16 @@ class User extends Authenticatable
         return $this->hasMany(ModelHasRestroom::class);
     }
 
+    public function presencedMajelis()
+    {
+        return $this->hasMany(PresenceMajelis::class, 'user_id_presenced');
+    }
+
+    public function presencerMajelis()
+    {
+        return $this->belongsTo(PresenceMajelis::class, 'user_id_presencer');
+    }
+
     // Detail Of User
     public function dataDiri()
     {

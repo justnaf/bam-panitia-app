@@ -38,6 +38,11 @@
                             {{ __('QR Presensi') }}
                         </a>
                     </div>
+                    <div class="mb-2">
+                        <a href="{{route('presences.majelis.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            {{ __('Presensi Kajian') }}
+                        </a>
+                    </div>
                 </x-dropdown-nav-link>
                 <x-dropdown-nav-link title="Data Kamar" :active="request()->routeIs('restroom.*')">
                     <div class="mb-2">
@@ -55,6 +60,11 @@
                     <div class="mb-2">
                         <a href="{{route('grades.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
                             Semua Penilaian
+                        </a>
+                    </div>
+                    <div class="mb-2">
+                        <a href="{{route('grades.graduate.index')}}" class="hover:bg-emerald-500 flex py-2 px-2 rounded-md w-full">
+                            Kelulusan
                         </a>
                     </div>
                 </x-dropdown-nav-link>

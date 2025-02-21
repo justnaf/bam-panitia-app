@@ -26,6 +26,14 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     Route::resource('sesi', SesiController::class); // Sesi Management
     Route::resource('modelActiveEvents', ModelActiveEventController::class); // Model Active Event
 
+    /** Graduate Route */
+    Route::get('/graduate', [GradeController::class, 'indexGraduate'])->name('grades.graduate.index');
+    Route::post('/graduate/get-data', [GradeController::class, 'fetchGraduateData'])->name('grades.graduate.getdata');
+    Route::get('/graduate/{graduateId}/edit', [GradeController::class, 'editGraduateData'])->name('grades.graduate.edit');
+    Route::patch('/graduate/{graduateId}', [GradeController::class, 'updateGraduateData'])->name('grades.graduate.update');
+    Route::get('/graduate/generate-all/{eventId}', [GradeController::class, 'genereteAllGraduate'])->name('grades.graduate.generateall');
+    /** End Graduate Route */
+
 
     Route::get('/cnsession-status/{sesi}', [SesiController::class, 'changeSessionStatus'])->name('cnsession.status'); // Ganti Status Sesi
 
@@ -69,6 +77,13 @@ Route::middleware(['auth', 'role:SuperAdmin|Instruktur|Admin'])->group(function 
     Route::put('/grades/{userId}/{eventId}/{gradeId}', [GradeController::class, 'update'])->name('grades.update');
     Route::get('/grades/{userId}/{eventId}/{sesiId}/edit', [GradeController::class, 'gradeEdit'])->name('grades.edit');
     /** End Grade Route */
+
+    /** Presence Majelis Route */
+    Route::get('/majelis-presecense', [PresenceHistoryController::class, 'majelisPresencesIndex'])->name('presences.majelis.index');
+    Route::get('/majelis-presecense/{kajian}', [PresenceHistoryController::class, 'majelisPresencesScanner'])->name('presences.majelis.scanner');
+    Route::get('/majelis-presecense/{kajian}/{qr}', [PresenceHistoryController::class, 'majelisPresencesGetUser'])->name('presences.majelis.getuser');
+    Route::post('/majelis-presecense/{kajian}', [PresenceHistoryController::class, 'majelisPresencesStore'])->name('presences.majelis.store');
+    /** End Presence Majelis Route */
 
     /** Presence Route */
     Route::post('/get-presences-history', [PresenceHistoryController::class, 'getPresencesHistory'])->name('presences.gethistory');

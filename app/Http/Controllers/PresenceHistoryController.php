@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Majelis;
 use App\Models\PresenceHistory;
 use Illuminate\Http\Request;
 use App\Models\ModelActiveEvent;
+use App\Models\PresenceMajelis;
 use App\Models\Sesi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -156,5 +158,45 @@ class PresenceHistoryController extends Controller
             }
         }
         return redirect()->route('presences.listview')->with('error', 'Gagal Update Presensi');
+    }
+
+    public function majelisPresencesIndex()
+    {
+        $kajian = Majelis::where('status', 'on-going')->get();
+        return view('presences.majelis.index', compact('kajian'));
+    }
+
+    public function majelisPresencesScanner(Majelis $kajian)
+    {
+        return view('presences.majelis.scanner', compact('kajian'));
+    }
+
+    public function majelisPresencesGetUser(Majelis $kajian, $qr)
+    {
+        $user = User::with('dataDiri')->where('code', $qr)->get();
+        return view('presences.majelis.show', compact(['kajian', 'user']));
+    }
+
+    public function majelisPresencesStore(Majelis $kajian, Request $request)
+    {
+        if ($request->user_id == Auth::id()) {
+            return redirect()->route('presences.majelis.scanner', compact('kajian'))->with('warning', 'Tidak Diperkenankan Absen Diri Sendiri');
+        }
+
+        $cek = PresenceMajelis::where('user_id_presenced', $request->user_id)->where('majelis_id', $kajian->id)->first();
+        if ($cek == null) {
+            $data = new PresenceMajelis();
+            $data->user_id_presenced = $request->user_id;
+            $data->user_id_presencer = Auth::id();
+            $data->majelis_id = $request->majelis_id;
+            $data->status = $request->status;
+            $data->desc = $request->desc;
+            $data->save();
+            if ($data->wasRecentlyCreated) {
+                return redirect()->route('presences.majelis.scanner', compact('kajian'))->with('success', 'Berhasil Presensi');
+            }
+            return redirect()->route('presences.majelis.scanner', compact('kajian'))->with('error', 'User Gagal Presensi');
+        }
+        return redirect()->route('presences.majelis.scanner', compact('kajian'))->with('error', 'User Sudah Presensi');
     }
 }

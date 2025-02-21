@@ -44,6 +44,11 @@ class Event extends Model
         return $this->hasMany(ModelActiveEvent::class);
     }
 
+    public function modelHistoryEvent()
+    {
+        return $this->hasMany(ModelHistoryEvent::class);
+    }
+
     public function presenceHistories()
     {
         return $this->hasMany(PresenceHistory::class);
