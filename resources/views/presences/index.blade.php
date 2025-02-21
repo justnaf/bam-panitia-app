@@ -45,7 +45,7 @@
             return {
                 selectedEvent: null
                 , selectedSesi: null
-                , events: @json($events), // Pass your events data from Laravel to Alpine.js
+                , events: @json($events),
 
                 getSesies(eventId) {
                     const selectedEventId = Number(eventId);
