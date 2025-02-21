@@ -75,6 +75,7 @@ class ModelActiveEventController extends Controller
     public function update(Request $request, ModelActiveEvent $modelActiveEvent)
     {
         $modelActiveEvent->number = $request->number;
+        $modelActiveEvent->status = $request->status;
         if ($modelActiveEvent->save()) {
             return redirect()->route('modelActiveEvents.index')->with('success', 'Berhasil Update Nomor Dada');
         }

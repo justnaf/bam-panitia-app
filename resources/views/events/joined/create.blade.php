@@ -49,10 +49,10 @@
                             </div>
                             <div class="w-full px-1 col-span-2">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
-                                    Status
+                                    Sebagai
                                 </label>
                                 <select class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md p-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" type="text" name="status" id="status" required>
-                                    <option value="">Pilih</option>
+                                    <option>Pilih</option>
                                     <option value="Peserta">Peserta</option>
                                     <option value="Panitia">Panitia</option>
                                     <option value="Instruktur">Instruktur</option>

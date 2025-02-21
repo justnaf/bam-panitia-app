@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{route('modelActiveEvents.index')}}">Invite Management</a> > <span>Tambah Nomor Dada</span>
+            <a href="{{route('modelActiveEvents.index')}}">Invite Management</a> > <span>Edit Pengguna</span>
         </h2>
     </x-slot>
 
@@ -28,6 +28,17 @@
                                     Nomor Dada
                                 </label>
                                 <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md p-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="2" type="text" name="number" id="number" value="{{$modelActiveEvent->number}}" />
+                            </div>
+                            <div class="w-full px-1 col-span-2">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
+                                    Sebagai
+                                </label>
+                                <select class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md p-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" type="text" name="status" id="status" required>
+                                    <option>Pilih</option>
+                                    <option value="Peserta" {{$modelActiveEvent->status == 'Peserta' ? 'selected' : '' }}>Peserta</option>
+                                    <option value="Panitia" {{$modelActiveEvent->status == 'Panitia' ? 'selected' : '' }}>Panitia</option>
+                                    <option value="Instruktur" {{$modelActiveEvent->status == 'Instruktur' ? 'selected' : '' }}>Instruktur</option>
+                                </select>
                             </div>
                             <div class="px-1">
                                 <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="confirmSimpan"><span class="font-extrabold">Simpan</span></button>

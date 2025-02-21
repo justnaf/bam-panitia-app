@@ -56,7 +56,7 @@
                                         <td class="px-2 py-3" x-text="session.user.username"></td>
                                         <td class="px-2 py-3" x-text="session.user.data_diri.name"></td>
                                         <td class="px-2 py-3" x-text="session.user.data_diri.gender"></td>
-                                        <td class="px-2 py-3" x-text="session.user.roles[0].name"></td>
+                                        <td class="px-2 py-3" x-text="session.status"></td>
                                         <td>
                                             <a :href="'modelActiveEvents/'+session.id+'/edit'">Edit</a>
                                             <form method="POST" :action="'{{ route('modelActiveEvents.destroy', '') }}/' + session.id" x-data="deleteForm" x-ref="form">
